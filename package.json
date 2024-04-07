@@ -1,7 +1,11 @@
 {
   "name": "chromane",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chromane/chromane.git"
+  },
   "type": "module",
-  "version": "1.0.111",
+  "version": "1.0.113",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
