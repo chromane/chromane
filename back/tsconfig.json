@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "baseUrl": "./",
+    "paths": {
+      "@chromane/*": ["../*"]
+    },
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "outDir": "../firebase/functions/lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true
+  },
+  "compileOnSave": true,
+  "include": ["./**/*", "../shared/**/*", "../common/**/*"]
+}

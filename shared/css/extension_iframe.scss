@@ -1,0 +1,74 @@
+html {
+  height: 460px;
+  width: 420px;
+}
+
+html.window-name-chromane-popup {
+  height: 100%;
+  width: 100%;
+}
+
+html,
+body,
+iframe {
+  display: block;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+}
+
+body,
+iframe {
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html.window-name-chromane-popup #blocking-overlay {
+  display: none;
+}
+
+#blocking-overlay {
+  position: absolute;
+  z-index: 9900;
+  justify-content: center;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-primary);
+  transition: all 0.2s ease;
+}
+
+#blocking-overlay {
+  opacity: 0;
+  visibility: hidden;
+}
+
+#blocking-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#blocking-overlay .ripple {
+  position: absolute;
+  z-index: 88;
+  width: 256px;
+  height: 256px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#blocking-overlay .logo {
+  position: absolute;
+  z-index: 99;
+  width: 128px;
+  height: 128px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

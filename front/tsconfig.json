@@ -1,0 +1,13 @@
+{
+  "include": ["./**/*", "../shared/**/*", "../ext/**/*"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "allowArbitraryExtensions": true,
+    "paths": {
+      "@chromane/*": ["../*"]
+    },
+    "target": "es2021"
+  }
+}

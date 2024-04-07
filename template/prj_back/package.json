@@ -1,0 +1,10 @@
+{
+  "name": "back",
+  "scripts": {},
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {},
+  "private": true
+}

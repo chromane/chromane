@@ -1,0 +1,21 @@
+:host,
+:root {
+  --color-primary: #043a07;
+  --gradient-primary: linear-gradient(150deg, #0f5213 -2.68%, #010f0c 116.81%);
+  --color-border: rgba(0, 0, 0, 0.12);
+
+  --color-primary-black: #222222;
+  --color-primary-white: #fdfdfd;
+  --color-primary-orange: #e14500;
+  --color-primary-green: #222222;
+  --color-primary-red: #b3261e;
+  --color-primary-highlight: #e145001a;
+  --color-secondary-dark-orange: #ad3500;
+  --color-secondary-bright-orange: #ff4c00;
+  --color-secondary-red: #9f130b;
+  --color-secondary-gray: #9a9a9a;
+  --color-secondary-highlight: #e1450080;
+  --color-ttip-gray: #414141;
+  --color-divider-gray: #dfdfdf;
+  --color-light-gray: #f3f3f3;
+}

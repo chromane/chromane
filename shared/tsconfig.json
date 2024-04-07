@@ -1,0 +1,17 @@
+{
+  "include": ["./**/*"],
+  "exclude": ["src/**/__tests__/*"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "allowArbitraryExtensions": true,
+    "paths": {
+      "@shared/*": ["../shared/*"],
+      "@common/*": ["../common/*"],
+      "@project/*": ["./src/project/*"],
+      "@src/*": ["./src/*"]
+    },
+    "target": "es2021"
+  }
+}

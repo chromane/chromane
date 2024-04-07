@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "baseUrl": "./",
+    "paths": {
+      "@common/*": ["../common/*"],
+      "@shared/*": ["../shared/*"]
+    },
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true
+  },
+  "compileOnSave": true,
+  "include": ["./**/*", "../prj_shared/**/*", "../node_modules/chromane/**/*"]
+}

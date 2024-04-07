@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+import builder from "../builder/builder.js";
+import path from "path";
+
+let [arg_1, arg_2, arg_3] = process.argv.slice(2);
+let prj_root = path.resolve("./");
+
+import dirnames from "../builder/dirnames.js";
+dirnames.init(prj_root);
+
+if (arg_1 === "dev") {
+  builder.common.build_versions();
+  // builder.backend.watch();
+  builder.frontend.watch();
+  builder.extension.watch();
+  // builder.firebase.serve();
+} else if (arg_2 === "init") {
+  builder.common.init();
+}

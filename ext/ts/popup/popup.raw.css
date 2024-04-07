@@ -1,0 +1,387 @@
+.chromane_cover {
+  display: none;
+
+  position: fixed;
+  z-index: 7000;
+
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.chromane_cover.active {
+  display: block;
+}
+
+.chromane-container {
+  top: 0px;
+  left: 0px;
+  position: fixed;
+  z-index: 999888000;
+  user-select: none;
+}
+
+.chromane-container.chromane-transition-status-active {
+  transition: all 0.3s ease;
+}
+.chromane-container.chromane-transition-status-not-active {
+  transition: none !important;
+}
+
+/* chromane-popup-content */
+.chromane-popup-content {
+  position: relative;
+  z-index: 400;
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  transition: box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.chromane-logo-status-active .chromane-popup-content iframe {
+  opacity: 0;
+}
+.chromane-progress-status-active .chromane-popup-content iframe {
+  opacity: 0;
+}
+.chromane-container.chromane-dragging .chromane-popup-content {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+.chromane-container-mode-bubble .chromane-popup-content {
+  border-radius: 4px;
+}
+.chromane-container-mode-popup .chromane-popup-content {
+  border-radius: 4px;
+}
+.chromane-container-mode-sidebar .chromane-popup-content {
+  border-radius: 0px;
+}
+.chromane-status-sidebar-right-hidden .chromane-popup-content,
+.chromane-status-sidebar-left-hidden .chromane-popup-content {
+  box-shadow: none;
+}
+
+.chromane-container.chromane_sidebar iframe {
+  border-radius: 0px;
+}
+
+.chromane-container.chromane-wide {
+  right: -660px;
+  width: 660px;
+}
+
+.chromane-container.active {
+  right: 0px;
+}
+
+.chromane-container iframe {
+  position: relative;
+  z-index: 400;
+  display: block;
+  height: 100%;
+  width: 100%;
+  border: none;
+  transition: opacity 0.2s ease;
+}
+
+.chromane-container[data-toggle-drag="true"] .chromane-toggle-btn {
+  cursor: move;
+}
+
+.chromane-toggle-left,
+.chromane-toggle-right {
+  position: absolute;
+  z-index: 200;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  top: 200px;
+  height: 50px;
+  width: 30px;
+
+  background-color: #1c1c1c;
+  box-shadow: 3px 0px 6px rgb(0 0 0 / 16%), 3px 0px 6px rgb(0 0 0 / 23%);
+  cursor: pointer;
+}
+
+/* .chromane-status-sidebar-left */
+.chromane-toggle-left {
+  left: 10px;
+  opacity: 0;
+  visibility: hidden;
+  /*  */
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.chromane-toggle-right {
+  right: 10px;
+  opacity: 0;
+  visibility: hidden;
+  /*  */
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.chromane-status-sidebar-right .chromane-toggle-left {
+  left: -30px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.chromane-chevron {
+  width: 24px;
+  height: 24px;
+}
+
+.chromane-status-sidebar-left .chromane-toggle-right,
+.chromane-status-sidebar-left-hidden .chromane-toggle-right {
+  right: -30px;
+  opacity: 1;
+  visibility: visible;
+}
+.chromane-status-sidebar-left .chromane-toggle-right .chromane-chevron {
+  transform: rotate(0deg);
+}
+.chromane-status-sidebar-left-hidden .chromane-toggle-right .chromane-chevron {
+  transform: rotate(180deg);
+}
+
+.chromane-status-sidebar-right .chromane-toggle-left,
+.chromane-status-sidebar-right-hidden .chromane-toggle-left {
+  left: -30px;
+  opacity: 1;
+  visibility: visible;
+}
+.chromane-status-sidebar-right .chromane-toggle-left .chromane-chevron {
+  transform: rotate(180deg);
+}
+.chromane-status-sidebar-right-hidden .chromane-toggle-left .chromane-chevron {
+  transform: rotate(0deg);
+}
+
+/* dragging_overlay */
+.chromane-container .chromane_iframe_dragging_overlay {
+  position: absolute;
+  top: 0px;
+  left: 66px;
+  width: calc(100% - 66px - 66px);
+  height: 55px;
+  z-index: 500;
+  cursor: move;
+}
+
+.chromane-container.chromane-status-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.chromane-container.chromane-dragging .chromane_iframe_dragging_overlay {
+  height: 100%;
+  width: 100%;
+  left: 0px;
+}
+
+.chromane-container.chromane-container-mode-bubble .chromane_iframe_dragging_overlay {
+  height: 100%;
+  width: 100%;
+  left: 0px;
+  cursor: pointer;
+}
+
+.chromane-container.chromane-bubble.chromane-dragging .chromane_iframe_dragging_overlay {
+  height: 100%;
+  width: 100%;
+  left: 0px;
+  cursor: move;
+}
+
+/*chromane_iframe_cover_overlay  */
+.chromane-container .chromane_iframe_cover_overlay {
+  position: absolute;
+  inset: 0px;
+  background: transparent;
+  z-index: 500;
+  cursor: move;
+  display: none;
+}
+.chromane-container[data-toggle-drag="true"] .chromane_iframe_cover_overlay {
+  display: block;
+}
+
+/* / */
+.chromane_iframe_resizing_overlay {
+  position: absolute;
+  z-index: 9900;
+  top: 0px;
+  left: 0px;
+}
+.chromane_iframe_resizing-top {
+  position: absolute;
+  z-index: 9900;
+  top: -2px;
+  left: 0px;
+  height: 5px;
+  width: 100%;
+  cursor: n-resize;
+}
+.chromane_iframe_resizing-right {
+  position: absolute;
+  z-index: 9900;
+  top: 0px;
+  right: -2px;
+  height: 100%;
+  width: 5px;
+  cursor: e-resize;
+}
+.chromane_iframe_resizing-bottom {
+  position: absolute;
+  z-index: 9900;
+  bottom: -2px;
+  left: 0px;
+  height: 5px;
+  width: 100%;
+  cursor: s-resize;
+}
+.chromane_iframe_resizing-left {
+  position: absolute;
+  z-index: 9900;
+  top: 0px;
+  left: -2px;
+  height: 100%;
+  width: 5px;
+  cursor: w-resize;
+}
+.chromane_iframe_resizing-top-left {
+  position: absolute;
+  z-index: 9900;
+  top: -3px;
+  left: -3px;
+  height: 7px;
+  width: 7px;
+  cursor: nw-resize;
+}
+.chromane_iframe_resizing-top-right {
+  position: absolute;
+  z-index: 9900;
+  top: -3px;
+  right: -3px;
+  height: 7px;
+  width: 7px;
+  cursor: ne-resize;
+}
+.chromane_iframe_resizing-bottom-right {
+  position: absolute;
+  z-index: 9900;
+  bottom: -3px;
+  right: -3px;
+  height: 7px;
+  width: 7px;
+  cursor: se-resize;
+}
+.chromane_iframe_resizing-bottom-left {
+  position: absolute;
+  z-index: 9900;
+  bottom: -3px;
+  left: -3px;
+  height: 7px;
+  width: 7px;
+  cursor: sw-resize;
+}
+
+/*  */
+.chromane-overlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  /* background: linear-gradient(135deg, #ffffffba, #83a4ff59); */
+  /* linear-gradient(135deg, #edb01a, #212226) */
+  background-color: rgb(0 0 0 / 50%);
+  transition: all 0.3s ease;
+}
+
+/* this status is activated when we are dragging our popup around  */
+.chromane-overlay.chromane-dragging {
+  opacity: 0;
+  visibility: visible;
+}
+
+.chromane-overlay.chromane-active {
+  opacity: 1;
+}
+
+.chromane-overlay.chromane-not-active {
+  opacity: 0;
+  visibility: hidden;
+  /* pointer-events: none; */
+}
+
+.chromane-overlay.chromane-not-active {
+  opacity: 0;
+  /* pointer-events: none; */
+}
+
+.chromane-logo,
+.chromane-logo-progress {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 999000;
+  background: var(--gradient-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.chromane-logo svg {
+  width: 42px;
+  height: 42px;
+  filter: drop-shadow(2px 4px 6px black);
+}
+
+.chromane-logo-progress svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.chromane-logo-progress svg:first-child {
+  width: 240px;
+  height: 240px;
+  opacity: 0.75;
+}
+.chromane-logo-progress svg:last-child {
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(2px 4px 6px black);
+}
+
+.chromane-logo-status-active .chromane-logo {
+  visibility: visible;
+  opacity: 1;
+}
+.chromane-logo-status-not-active .chromane-logo {
+  opacity: 0;
+  visibility: hidden;
+}
+.chromane-progress-status-active .chromane-logo-progress {
+  visibility: visible;
+  opacity: 1;
+}
+.chromane-progress-status-not-active .chromane-logo-progress {
+  opacity: 0;
+  visibility: hidden;
+}
