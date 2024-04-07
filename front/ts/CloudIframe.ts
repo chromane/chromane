@@ -25,6 +25,8 @@ export default class CloudIframe {
   drawer_item_click(item) {
     this.ext_store.active_page_comp_name = item.comp_name;
   }
+  arrow_button_click() {}
+  close_button_click() {}
   blocking_inc() {
     this.ext_store.ui_number_of_blocking_operations += 1;
   }

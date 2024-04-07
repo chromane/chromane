@@ -1,8 +1,8 @@
 // todo: improve logging functionality
 import util from "@chromane/shared/ts/util";
-import type Backend from "@chromane/back/ts/BackendDefault";
+import Backend from "@chromane/back/ts/BackendDefault";
 // types
-import { BackendCodes, BackendResponse } from "@chromane/shared/types";
+import { BackendCodes, BackendResponse } from "@chromane/shared/types/types";
 import CloudIframe from "./CloudIframe";
 //
 export default class FirebaseManager {
@@ -21,6 +21,7 @@ export default class FirebaseManager {
     let _this = this;
     //
     this.backend_proxy = {
+      // @ts-ignore
       modules: new Proxy(
         {},
         {
@@ -43,7 +44,7 @@ export default class FirebaseManager {
           },
         }
       ),
-    } as Backend;
+    };
     //
   }
 
@@ -79,6 +80,7 @@ export default class FirebaseManager {
   }
   async load_user_data() {
     this.store.ui_number_of_blocking_operations += 1;
+    // @ts-ignore
     let user_doc_r = await this.backend_proxy.modules.chromane.get_user_data("_token_");
     let claims = this.store.auth.claims;
     let user_doc = user_doc_r.result;

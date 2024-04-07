@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = defineProps<{
-  ctrl: any;
+  ctrl: CloudIframe;
   store: any;
   logo_wide: any;
 }>();
@@ -9,6 +9,7 @@ import Header from "./comp/Header.vue";
 import Drawer from "./comp/Drawer.vue";
 import PageContainer from "./pages/PageContainer.vue";
 import { ref, watch } from "vue";
+import type CloudIframe from "../ts/CloudIframe";
 
 let ref_drawer = ref(null);
 

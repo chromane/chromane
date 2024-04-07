@@ -56,8 +56,6 @@ export default {
     this.prj_backend = path.resolve(this.prj_root, "prj_back");
     this.prj_backend_src = path.resolve(this.prj_root, "prj_backend", "src");
     //
-    this.config_json = JSON.parse(fs.readFileSync(this.config, "utf8"));
   },
-  config_json: {},
   //
 };
