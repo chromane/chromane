@@ -9,6 +9,7 @@ import Operations from "./Operations";
 //
 import Sheets from "@common/sites/Sheets";
 import config from "@chromane/ts/config";
+import { get_id } from "@chromane/shared/ts/helpers";
 //
 util.wrap_class(Operations, []);
 let operations = new Operations();
@@ -811,7 +812,7 @@ export default class ContentIsolated {
     let selection_data = util.find(this.selection_data_arr, "a_node", selection.anchorNode) as any;
     if (!selection_data) {
       selection_data = {
-        id: util.get_id(),
+        id: get_id(),
       };
       this.selection_data_arr.push(selection_data);
       this.selection_data_arr.sort(this.selection_sort_nodes);

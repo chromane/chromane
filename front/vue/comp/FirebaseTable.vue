@@ -26,6 +26,7 @@ import ctrl from "../../ts/app_controller";
 
 import { COLUMN_STATIC_CONFIGURATION } from "./firebase_table/constants";
 import { convert_filter_rule_to_fb_query } from "./firebase_table/helpers";
+import { get_id } from "@chromane/shared/ts/helpers";
 
 const DEFAULT_SORT_DIR: SortDir = "asc";
 
@@ -119,7 +120,7 @@ let state: { style: HTMLStyleElement | null; storage_table_key: string } = {
 };
 
 onMounted(() => {
-  model.style_id = "firebase-table-style-" + util.get_id();
+  model.style_id = "firebase-table-style-" + get_id();
   state.style = document.createElement("style");
   state.style.id = model.style_id;
   state.style.innerHTML = `

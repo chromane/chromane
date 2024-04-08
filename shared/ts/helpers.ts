@@ -15,6 +15,15 @@ export function decode_jwt(token: string) {
     return null;
   }
 }
+
+export function encode_jwt(...parts: Array<any>) {
+  let jwt = [];
+  for (let part of parts) {
+    jwt.push(btoa(encode_json(part)));
+  }
+  return jwt.join(".");
+}
+
 // AJAX Overrides
 export type OverrideDataXHR = {
   name: string;
@@ -163,4 +172,75 @@ export function override_fetch(window: Window, callback: (message: OverrideDataF
 
     return response;
   };
+}
+
+export function decode_json<T>(text: string | null): T | null {
+  if (text === null) return null;
+  try {
+    return JSON.parse(text) as T;
+  } catch (e) {
+    return null;
+  }
+}
+
+export function encode_json(json: object): string {
+  return JSON.stringify(json);
+}
+
+export function get_google_auth_url(google_cloud_oauth_client_id, redirect_uri, scopes, state_obj) {
+  let url_root = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount`;
+  // state will be passed to the chrome-extnesion/id/redirect page
+  let state = btoa(encode_json(state_obj));
+  // [ name, value ] pairs
+  let params = [
+    ["access_type", "offline"],
+    ["prompt", "select_account"],
+    ["include_granted_scopes", "true"],
+    ["response_type", "code"],
+    ["service", "lso"],
+    ["o2v", "2"],
+    ["theme", "glif"],
+    ["flowName", "GeneralOAuthFlow"],
+    ["client_id", google_cloud_oauth_client_id],
+    ["redirect_uri", redirect_uri],
+    ["state", state],
+    ["scope", scopes.join(" ")],
+  ];
+  console.log("params", params);
+  let param_str = params
+    .map(([name, value]) => {
+      return `${name}=${encodeURIComponent(value)}`;
+    })
+    .join("&");
+  //
+  let auth_page_url = `${url_root}?${param_str}`;
+  return auth_page_url;
+}
+
+export function get_id() {
+  return Date.now().toString(36) + Math.floor(Math.random() * 1_000_000_000_000).toString(36);
+}
+
+export function get_code() {
+  return Math.floor(1_000_000_000 + Math.random() * 1_000_000_000_000)
+    .toString(36)
+    .slice(0, 6)
+    .toUpperCase();
+}
+
+export function url_to_params(url: string) {
+  let params: any = {};
+  try {
+    let str = url.split("?")[1];
+    let split_1 = str.split("&");
+    for (let item of split_1) {
+      let split_2 = item.split("=");
+      let name = decodeURIComponent(split_2[0]);
+      let value = decodeURIComponent(split_2[1]);
+      params[name] = value;
+    }
+    return params;
+  } catch (e) {
+    return params;
+  }
 }

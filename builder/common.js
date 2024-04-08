@@ -20,6 +20,11 @@ export default {
       path.resolve(dirnames.prj_root)
     );
   },
+  wait: function (time) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, time);
+    });
+  },
   compile: async function (compiler) {
     return new Promise((resolve) => {
       compiler.run((err, stats) => {

@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { get_id } from "@chromane/shared/ts/helpers";
 import util from "@chromane/shared/ts/util";
 import { watch, reactive, onUnmounted } from "vue";
 
 const model = reactive({
-  data_id: util.get_id(),
+  data_id: get_id(),
 });
 
 const props = withDefaults(

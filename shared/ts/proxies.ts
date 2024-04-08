@@ -1,3 +1,4 @@
+import { get_id } from "./helpers";
 import util from "./util";
 
 class Proxies {
@@ -84,7 +85,7 @@ class Proxies {
     return {
       exec: (name, data?: any) => {
         return new Promise((r) => {
-          let request_id = util.get_id();
+          let request_id = get_id();
           this.resolvers[request_id] = r;
           let meta = {
             request_id,

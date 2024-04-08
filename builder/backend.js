@@ -7,12 +7,55 @@ import path from "path";
 import fs from "fs";
 import fs_extra from "fs-extra";
 import webpack from "webpack";
+import kill from "tree-kill";
 //
 import dirnames from "./dirnames.js";
 //
+let _server_process = null;
 //
-function compiler_callback(err, stats) {
+// function kill_process(process) {
+//   return new Promise((resolve) => {
+//     process.on("close", () => {
+//       console.log("222New version of back created. Process with old server killed.");
+//       resolve();
+//     });
+//     console.log("killing");
+//     process.kill(process.pid, "SIGKILL");
+//     resolve();
+//   });
+// }
+async function compiler_callback(err, stats) {
   console.log("err", err);
+  //
+  if (_server_process !== null) {
+    kill(_server_process.pid);
+    // _server_process.stdin.pause();
+    // _server_process.kill("SIGINT");
+    // console.log("killed", _server_process.killed);
+    // console.log("killed", _server_process.killed);
+    // console.log("killed", _server_process.killed);
+    // while (_server_process.killed !== true) {
+    //   console.log("killed", _server_process.killed);
+    //   console.log("killed", _server_process.killed);
+    //   console.log("killed", _server_process.killed);
+    //   console.log("killed", _server_process.killed);
+    //   console.log("killed", _server_process.killed);
+    //   console.log("killed", _server_process.killed);
+    //   await common.wait(100);
+    // }
+    // // await kill_process(_server_process);
+    // process.on("close", async () => {
+    //   console.log("222New version of back created. Process with old server killed.");
+    // });
+    // _server_process.kill("SIGINT");
+    console.log("1111New version of back created. Process with old server killed.");
+  }
+  _server_process = spawn(`node`, `index.js`.split(" "), {
+    cwd: path.resolve(dirnames.prj_root, "temp_back"),
+    stdio: "inherit",
+    shell: true,
+  });
+  //
   if (stats && stats.compilation && stats.compilation.errors) {
     console.log("stats.compilation.errors");
     stats.compilation.errors.forEach((error) => {
@@ -30,16 +73,15 @@ function backend_get_config(mode) {
       extensions: [".ts", ".tsx", ".js", ".vue", ".raw.html", ".raw.css", ".css"],
       alias: {
         "@chromane": path.resolve(dirnames.prj_root, "node_modules", "chromane"),
-        "@shared": dirnames.shared,
+        "@shared": dirnames.prj_shared,
       },
     },
-    entry: path.resolve(dirnames.prj_backend_src, "index.ts"),
+    entry: path.resolve(dirnames.prj_back, "entry", "index.ts"),
     module: {
       rules: [
         {
           test: /\.ts$/,
           loader: "ts-loader",
-          exclude: /node_modules/,
           options: {
             transpileOnly: true,
           },
@@ -88,6 +130,7 @@ async function back_build() {
   let config = backend_get_config("prod");
   webpack(config, compiler_callback);
 }
+import common from "./common.js";
 //
 export default {
   watch: async function () {

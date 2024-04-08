@@ -1,0 +1,39 @@
+{
+  // "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "workbench.editor.enablePreview": false,
+  "files.exclude": {
+    "**/.git": true, // this is a default value
+    "**/.DS_Store": true, // this is a default value
+    "**/node_modules": true, // this excludes all folders
+    // alternative version
+    "node_modules": true,
+    ".prettierignore": true,
+    ".prettierrc.json": true,
+    "package-lock.json": true,
+    // "package.json": true,
+    "img": true,
+    // ".vscode": true,
+    "dist": true,
+    // firebase
+    "firebase/.firebase": true,
+    "firebase/.firebaserc": true,
+    "firebase/firebase.json": true,
+    "firebase/functions/package-lock.json": true,
+    "firebase/functions/package.json": true,
+    // src
+    "src/img": true,
+    //
+    "firebase": true,
+    "firebase/public": true,
+    "firebase/functions": true,
+    //
+    "temp_frontend_webpack": true,
+    "temp_extension_webpack": true,
+    "temp_extension_install": true,
+    "temp_extension_build": true,
+    "temp_ext_install": true,
+    "temp_ext_build": true,
+    "temp_ext_webpack": true,
+    "temp_back": true
+  }
+}

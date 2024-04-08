@@ -26,6 +26,7 @@ import Authenticator from "@shared/tools/authenticator/backend/Authenticator";
 import Signspaces from "../teams/signspaces/backend";
 import OtherworkLlc from "../teams/otherwork_llc/backend";
 import { FBTableMeta, FBTableRow } from "../types/fb_table";
+import { get_code } from "@chromane/shared/ts/helpers";
 //
 export default class ExtensionBack {
   // props
@@ -348,7 +349,7 @@ export default class ExtensionBack {
     //
     if (snapshots.length === 0) {
       // first check if an account with such an email already exists
-      let email_code = util.get_code();
+      let email_code = get_code();
       console.log("email_code", email_code);
       //
       await this.db.collection("codes").doc(email_code).set({ email });

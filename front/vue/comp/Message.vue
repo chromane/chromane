@@ -3,7 +3,7 @@ import PermissionsButton from "./PermissionsButton.vue";
 import Button from "./Button.vue";
 const props = defineProps<{
   model: any;
-  config: any;
+  config?: any;
 }>();
 const emit = defineEmits<{
   (e: "button_click", data: any): void;

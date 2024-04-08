@@ -8,9 +8,11 @@ let prj_root = path.resolve("./");
 import dirnames from "../builder/dirnames.js";
 dirnames.init(prj_root);
 
+// todo: react to changes in manifest.json and trigger an update in /temp_ext_install
+
 if (arg_1 === "dev") {
   builder.common.build_versions();
-  // builder.backend.watch();
+  builder.backend.watch();
   builder.frontend.watch();
   builder.extension.watch();
   // builder.firebase.serve();

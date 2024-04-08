@@ -5,6 +5,7 @@ import type ExtensionBack from "@chromane/back/ts/ExtensionBack";
 import util from "@chromane/shared/ts/util";
 import proxies from "@chromane/shared/ts/proxies";
 import FirebaseManager from "@chromane/front/ts/FirebaseManager";
+import { get_id } from "@chromane/shared/ts/helpers";
 
 export default class CloudIframe {
   ext_store: any;
@@ -14,8 +15,10 @@ export default class CloudIframe {
   backend_module: ExtensionBack;
   a = { b: { c: {} } };
   window_name = "";
+  iframe_id = "";
   c: ContentBasic;
   constructor(ext_store, ext_config) {
+    this.iframe_id = get_id();
     this.window_name = window.name;
     this.ext_store = ext_store;
     this.proxy_content = proxies.create_window_proxy<ContentBasic>(ext_config.ext_id, window, window.parent.parent);
