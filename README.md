@@ -8,6 +8,7 @@ Chromane is a framework for developing chrome extensions with most of their UI c
 - Google-recommended config approach out of the box.
 - Reduce reliance on the host website, changes to which may break our extension.
 - Ability to use JS libraries and frameworks that require `eval`
+- Enables a simple way of packaging web apps developed in a different place
 
 ## Installation
 

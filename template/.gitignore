@@ -1,0 +1,13 @@
+node_modules
+
+/extension/
+/dist/
+/temp/
+/package-lock.json
+
+/temp_extension_webpack
+/temp_extension_install
+/temp_extension_build
+/temp_frontend_webpack
+
+/firebase/firebase-debug.log

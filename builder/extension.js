@@ -1,8 +1,8 @@
 //
 import chokidar from "chokidar";
 import rimraf from "rimraf";
-import zipper from "zip-local";
 import path from "path";
+import archiver from "archiver";
 import fs_extra from "fs-extra";
 import webpack from "webpack";
 import WebpackDevServer from "webpack-dev-server";
@@ -308,6 +308,36 @@ async function build_logos() {
     await sharp(path_to_logo).resize(128, 128).png().toFile(path_to_result_1);
   }
 }
+function zip_dir(input_dir, output_dir, output_file) {
+  return new Promise((resolve) => {
+    fs_extra.ensureDirSync(output_dir);
+
+    var output = file_system.createWriteStream(path.resolve(output_dir, output_file));
+    var archive = archiver("zip");
+
+    output.on("close", function () {
+      console.log(output_file);
+      console.log(archive.pointer() + " total bytes");
+      console.log("archiver has been finalized and the output file descriptor has closed.");
+      resolve(true);
+    });
+
+    archive.on("error", function (err) {
+      console.log("archiver error", err);
+      resolve(false);
+    });
+
+    archive.pipe(output);
+
+    // append files from a sub-directory, putting its contents at the root of archive
+    archive.directory(input_dir, false);
+
+    // append files from a sub-directory and naming it `new-subdir` within the archive
+    archive.directory("subdir/", "new-subdir");
+
+    archive.finalize();
+  });
+}
 //
 export default {
   watch: async function () {
@@ -359,11 +389,11 @@ export default {
     //
     await copy_from_temp_to_extension("prod-no-key");
     let package_no_key_name = `${ext_name}-no-key-${versions.extension}.zip`;
-    zipper.sync.zip(`${dirnames.temp_extension_install}`).compress().save(`${dirnames.temp_extension_build}/${package_no_key_name}`);
+    await zip_dir(dirnames.temp_extension_install, dirnames.temp_extension_build, package_no_key_name);
     //
     await copy_from_temp_to_extension("prod");
     let package_key_name = `${config.ext_name}-${versions.extension}.zip`;
-    zipper.sync.zip(`${dirnames.temp_extension_install}`).compress().save(`${dirnames.temp_extension_build}/${package_key_name}`);
+    await zip_dir(dirnames.temp_extension_install, dirnames.temp_extension_build, package_key_name);
     //
     console.log("build complete");
     //

@@ -3,7 +3,8 @@ import path from "path";
 import fs_extra from "fs-extra";
 
 let source = path.resolve("../chromane");
-let destination = path.resolve("../upwage/node_modules/chromane");
+// let destination = path.resolve("../upwage/node_modules/chromane");
+let destination = path.resolve("../link_spotter/node_modules/chromane");
 
 console.log(source);
 console.log(destination);
@@ -30,8 +31,6 @@ let chokidar_watcher = chokidar.watch(
 function copy() {
   console.log("copy");
   for (let folder of folders) {
-    console.log(path.resolve(source, folder));
-    console.log(path.resolve(destination, folder));
     fs_extra.copySync(
       //
       path.resolve(source, folder),

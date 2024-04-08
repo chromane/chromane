@@ -3,7 +3,6 @@ import nodeExternals from "webpack-node-externals";
 import { exec, spawn, execSync } from "child_process";
 import chokidar from "chokidar";
 import rimraf from "rimraf";
-import zipper from "zip-local";
 import path from "path";
 import fs from "fs";
 import fs_extra from "fs-extra";
