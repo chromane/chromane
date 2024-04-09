@@ -4,7 +4,8 @@ import fs_extra from "fs-extra";
 
 let source = path.resolve("../chromane");
 // let destination = path.resolve("../upwage/node_modules/chromane");
-let destination = path.resolve("../link_spotter/node_modules/chromane");
+// let destination = path.resolve("../link_spotter/node_modules/chromane");
+let destination = path.resolve("../swift/node_modules/chromane");
 
 console.log(source);
 console.log(destination);

@@ -9,7 +9,6 @@ class Proxies {
   iwn_listener_was_added_flag = false;
   resolvers: any = {};
   create_proxy_from_iframe_name<TargetType>(extension_id_param, iframe_name: string) {
-    console.log("set_popup_progress_status123123", extension_id_param, iframe_name);
     this.iwn_wait_for_first_iframe_registration_promise_hash[iframe_name] = new Promise((r) => {
       this.iwn_first_iframe_registration_resolver_hash[iframe_name] = r;
     });
@@ -35,7 +34,6 @@ class Proxies {
       {
         get(target, prop) {
           return async (...args: any[]) => {
-            // console.log("args", prop, args);
             let name = prop;
             let data = args;
             if (name === "get_window") {
@@ -54,7 +52,6 @@ class Proxies {
     return proxy as TargetType;
   }
   create_window_proxy<TargetType>(extension_id, window_this, window_target) {
-    console.log("create_window_proxy", extension_id, window_this, window_target);
     let wrap = this.create_window_wrap(extension_id, window_this, window_target);
     let proxy = new Proxy(
       {},
@@ -71,7 +68,6 @@ class Proxies {
   create_window_wrap(extension_id, window, target_window) {
     //
     window.addEventListener("message", async (event) => {
-      // console.log("event", event);
       if (event.data) {
         let name = event.data.name;
         let meta = event.data.meta;
@@ -113,7 +109,6 @@ class Proxies {
           try {
             var result: any = await instance[name].apply(instance, data);
           } catch (e) {
-            console.log("window_api_error", location.href, name, e);
             var result: any = null;
           }
           if (event.source) {
