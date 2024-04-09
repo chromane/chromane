@@ -12,6 +12,14 @@ import { BackendCodes } from "@chromane/shared/types/types";
 let _config: any = {};
 let _secrets: any = {};
 
+function get_default_oauth_client() {
+  let client_id = _config.google_client_id;
+  let client_secret = _secrets.google_client_secret;
+  let redirect_url = `${_config.urls.backend_root}/auth.redirect`;
+  const oauth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_url);
+  return oauth2Client;
+}
+
 class Common {
   async ping() {
     return "pong";
@@ -46,22 +54,15 @@ class Common {
 }
 
 class Auth {
-  async redirect(req) {
+  async redirect(query_params) {
     return {
       _redirect: true,
-      location: `chrome-extension://${_config.extension_id}/pages/redirect/index.html?code=${req.query.code}&state=${req.query.state}&event_name=${req.query.event_name}`,
+      location: `chrome-extension://${_config.extension_id}/pages/redirect/index.html?code=${query_params.code}&state=${query_params.state}&event_name=${query_params.event_name}`,
     };
   }
-  get_default_oauth_client() {
-    let client_id = _config.google_cloud_oauth_client_id;
-    let client_secret = _secrets.google_cloud_oauth_client_secret;
-    let redirect_url = `${_config.urls.backend_root}/redirect`;
-    const oauth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_url);
-    return oauth2Client;
-  }
-  async sign_in_with_google_code(req) {
-    let code = req.body.data.code;
-    let client = this.get_default_oauth_client();
+
+  async sign_in_with_google_code(code) {
+    let client = get_default_oauth_client();
     const { tokens } = await client.getToken(code);
     console.log("tokens", tokens);
     return tokens;
