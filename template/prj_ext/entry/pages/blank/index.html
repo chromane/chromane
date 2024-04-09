@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloom - Unlimited Free Screen Recorder</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      padding: 0px;
+      margin: 0px;
+      display: block;
+      outline: none;
+      border: none;
+    }
+
+    #bg {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.5) blur(2.5px) saturate(0.75);
+      transform: scale(1.05);
+      transform-origin: center;
+    }
+  </style>
+</head>
+
+<body>
+  <img id="bg" src="/img/background.jpg" />
+  <script src="/js/content_isolated.js"></script>
+</body>
+
+</html>

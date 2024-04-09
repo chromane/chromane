@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patch Tagger</title>
+  <style type="text/css">
+    html,
+    body,
+    iframe {
+      display: block;
+      margin: 0px;
+      padding: 0px;
+      height: 100%;
+      width: 100%;
+      border: none;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    iframe {
+      position: relative;
+      z-index: 200;
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+    .background {
+      position: absolute;
+      z-index: 100;
+      width: 100%;
+      height: 100%;
+      top: 0px;
+      left: 0px;
+      object-fit: cover;
+      background: linear-gradient(150deg, #000d41 -2.68%, #00020c 116.81%)
+    }
+
+    .background-inner {
+      width: 100%;
+      height: 100%;
+      top: 0px;
+      left: 0px;
+      background-image: url(/img/pattern.svg);
+      background-repeat: repeat;
+      filter: brightness(0.75);
+      filter: grayscale(1);
+      opacity: 0.8;
+    }
+
+    iframe {
+      position: absolute;
+      top: 10%;
+      left: calc(50% - 720px / 2);
+      width: 720px;
+      height: 80%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background">
+    <div class="background-inner"></div>
+  </div>
+  <iframe allowtransparency allow="camera; microphone; fullscreen; display-capture; clipboard-read; clipboard-write"
+    name="offboarding" src="http://localhost:2140/iframe/"></iframe>
+</body>
+
+</html>
