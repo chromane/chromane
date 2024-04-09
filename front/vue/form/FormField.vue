@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import TextField from "./TextField.vue";
+import TextareaField from "./TextareaField.vue";
+import Number from "./Number.vue";
 
 const emit = defineEmits<{
   (e: "change", data: any): void;
@@ -22,6 +24,10 @@ const props = defineProps(["model"]);
         v-if="model.type === 'text'"
         :model="props.model"
       ></TextField>
+      <TextareaField
+        v-if="model.type === 'textarea'"
+        :model="props.model"
+      ></TextareaField>
     </div>
   </div>
 </template>

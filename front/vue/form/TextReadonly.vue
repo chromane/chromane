@@ -18,22 +18,19 @@ watch(
   },
   {
     immediate: true,
+    deep: true,
   }
 );
-
-function handle_input() {
-  props.form_state[props.form_field.name] = input_ref.value.value;
-}
 </script>
 
 <template>
   <input
     ref="input_ref"
     type="text"
+    readonly
     class="form-control"
     autocomplete="chrome-off"
     v-bind:placeholder="props.form_field.placeholder || props.form_field.title"
-    v-on:input="handle_input"
   />
 </template>
 

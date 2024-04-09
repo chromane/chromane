@@ -1,6 +1,6 @@
 // todo: improve logging functionality
 import util from "@chromane/shared/ts/util";
-import Backend from "@chromane/back/ts/BackendDefault";
+import type BackendDefault from "@chromane/back/ts/BackendDefault";
 // types
 import { BackendCodes, BackendResponse } from "@chromane/shared/types/types";
 import CloudIframe from "./CloudIframe";
@@ -11,7 +11,7 @@ export default class FirebaseManager {
   ext_config: any;
   config: any;
   ctrl: CloudIframe;
-  backend_proxy: Backend;
+  backend_proxy: BackendDefault;
   constructor(ctrl, ext_config, store, shared_config) {
     //
     this.ctrl = ctrl;

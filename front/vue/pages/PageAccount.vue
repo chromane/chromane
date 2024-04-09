@@ -1,74 +1,116 @@
 <script setup lang="ts">
-const methods = {};
+const props = defineProps<{
+  ctrl: any;
+  store: any;
+}>();
+import icon_check from "@mdi/svg/svg/check.svg?raw";
+import NameValues from "../comp/NameValues.vue";
+import Button from "../comp/Button.vue";
+import { reactive, watch } from "vue";
+
+let model = reactive({
+  icon_check,
+  nvm: {},
+});
+
+watch(
+  () => props.store.auth,
+  () => {
+    if (props.store.auth && props.store.auth.claims) {
+      model.nvm = {
+        Name: props.store.auth.claims.name,
+        Email: props.store.auth.claims.email,
+      };
+    }
+  },
+  { deep: true, immediate: true }
+);
+let methods = {};
 </script>
 
 <template>
-  <div class="page account"></div>
+  <div class="page account">
+    <div class="section">
+      <div class="title">My account</div>
+      <div class="text">In this section you can see information about your account and your usage statistics.</div>
+      <NameValues
+        v-if="props.store.auth && props.store.auth.doc"
+        :model="model.nvm"
+      ></NameValues>
+    </div>
+    <div
+      class="section"
+      v-if="false && props.store.auth && props.store.auth.doc && props.store.auth.doc.status !== 'unlimited'"
+    >
+      <div class="title">Your subscription</div>
+      <div class="text">You are now on a free plan. Click the button below to upgrade.</div>
+      <div class="actions">
+        <Button
+          :model="{
+            color: 'primary',
+            text: 'Upgrade',
+          }"
+          v-on:button_click="ctrl.trigger_upgrade()"
+        >
+        </Button>
+      </div>
+    </div>
+    <div
+      class="section"
+      v-if="false && props.store.auth && props.store.auth.doc && props.store.auth.doc.status === 'unlimited'"
+    >
+      <div class="title">Your subscription</div>
+      <div class="text">You are now on a premium plan. Click the button below to manage your subscription.</div>
+      <div class="actions">
+        <Button
+          :model="{
+            color: 'primary',
+            text: 'Manage subscription',
+          }"
+          v-on:button_click="ctrl.trigger_portal()"
+        >
+        </Button>
+      </div>
+    </div>
+    <div
+      class="section"
+      v-if="false"
+    >
+      <div class="title">Delete account</div>
+      <div class="text">You are now on a free plan. Click the button below to upgrade.</div>
+      <div class="actions">
+        <Button
+          :model="{
+            color: 'red',
+            text: 'Delete account',
+          }"
+        >
+        </Button>
+      </div>
+    </div>
+  </div>
 </template>
 
-<style scoped>
+<style lang="scss">
 .page.account {
-  display: flex;
-  flex-direction: column;
-}
-.account-headline {
-  margin-bottom: 40px;
-}
-.account-section {
-  display: flex;
-  column-gap: 24px;
-}
-
-.account-section__avatar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.account-section__avatar img {
-  width: 87px;
-  height: 87px;
-  border-radius: 50%;
-  object-fit: contain;
-}
-
-.account-section__default {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  width: 87px;
-  height: 87px;
-  overflow: hidden;
-}
-
-.account-section__info {
-  display: flex;
-  flex-direction: column;
-  row-gap: 5px;
-  margin-top: 5px;
-}
-.account-section-text {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  column-gap: 15px;
-  color: #000;
-  font-size: 16px;
-  font-weight: 400;
-  word-break: break-all;
-}
-.account-section-text span {
-  font-weight: 700;
-  word-break: keep-all;
-}
-
-.account-footer {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.account-footer__delete {
-  background: var(--color-secondary-red);
+  .name-value-cont {
+    padding: 4px 24px 4px 12px;
+    border-left: 1px solid var(--color-primary);
+  }
+  .section {
+    width: 100%;
+    max-width: 520px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 24px;
+    .title {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .text {
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+  }
 }
 </style>

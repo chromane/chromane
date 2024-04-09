@@ -1,5 +1,6 @@
 import { get_id } from "./helpers";
 import util from "./util";
+import { BackendResponse, BackendCodes } from "../types/types";
 
 class Proxies {
   iwn_wait_for_first_iframe_registration_promise_hash = {};
@@ -129,5 +130,97 @@ class Proxies {
       }
     });
   }
+  // backend server proxy
+  create_proxy_backend<TargetType>(backend_root) {
+    let _this = this;
+    let proxy = new Proxy(
+      {},
+      {
+        get(target, module_name) {
+          return new Proxy(
+            {},
+            {
+              get(target, method_name) {
+                return async (...args: any[]) => {
+                  console.log("args", module_name, args);
+                  //
+                  console.log("module_name", module_name);
+                  console.log("method_name", method_name);
+                  return _this.backend(`${backend_root}/${String(module_name)}.${String(method_name)}`, args);
+                  //
+                };
+              },
+            }
+          );
+        },
+      }
+    );
+    return proxy as TargetType;
+  }
+  async backend(endpoint, args?): Promise<BackendResponse<any>> {
+    let backend_response = await this.get_backend_response(endpoint, args);
+    if (backend_response.code === BackendCodes.AUTH_TOKEN_EXPIRED) {
+      let result = await this.refresh_token();
+      if (result) {
+        let backend_response = await this.get_backend_response(endpoint, args);
+        return backend_response;
+      } else {
+        return {
+          success: false,
+          code: "ERROR_IN_TOKEN_REFRESH",
+          result: null,
+        } as BackendResponse<any>;
+      }
+    } else {
+      return backend_response;
+    }
+  }
+  async get_backend_response(endpoint, args?) {
+    try {
+      //
+      args = args.map((arg) => {
+        if (arg === "_token_") {
+          if (this.store && this.store.auth && this.store.auth.access_token) {
+            return this.store.auth.access_token;
+          } else {
+            return "";
+          }
+        } else {
+          return arg;
+        }
+      });
+      //
+      let fetch_url = endpoint;
+      let fetch_data: any = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: args ? args : {},
+        }),
+      };
+      let r = await fetch(fetch_url, fetch_data);
+      let text = await r.text();
+      let json = await util.decode_json(text);
+      if (json) {
+        return json as BackendResponse<any>;
+      } else {
+        return {
+          success: false,
+          code: "ERROR_IN_JSON",
+          result: null,
+        } as BackendResponse<any>;
+      }
+    } catch (e) {
+      console.log(e);
+      return {
+        success: false,
+        code: "ERROR_IN_FETCH",
+        result: null,
+      } as BackendResponse<any>;
+    }
+  }
+  //
 }
 export default new Proxies();

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import icon_close_thick from "@mdi/svg/svg/close-thick.svg?raw";
-import util from "@chromane/shared/ts/util";
 
 import { reactive, onMounted, watch } from "vue";
 
@@ -24,7 +23,7 @@ const emit = defineEmits<{
 
 let m: any = {
   icon_close_thick,
-  value: "",
+  text_input_value: "",
   placeholder: "Select tag",
 
   active: false,
@@ -34,58 +33,76 @@ let m: any = {
   selected_option_data: null,
   model: {},
 
-  option_data_arr: props.options,
+  option_data_arr: [],
+  selected_option_data_arr: [],
 };
 const data = reactive(m);
 
 watch(
   () => props.options,
   () => {
-    data.value = "";
-    data.option_data_arr = props.options;
+    data.text_input_value = "";
+    data.option_data_arr = props.options.map((option: any) => {
+      return {
+        value: option.value,
+        title: option.title,
+        status: "idle",
+      };
+    });
+  },
+  {
+    immediate: true,
   }
 );
 
 onMounted(() => {
   document.addEventListener("click", () => {
     data.active = false;
+    data.text_input_value = "";
   });
-
-  if (props.initial_value) {
-    select(props.initial_value);
-  }
+  // if (props.initial_value) {
+  //   select(props.initial_value);
+  // }
 });
 
-watch(
-  () => props.initial_value,
-  (value) => {
-    if (props.initial_value) {
-      select(props.initial_value);
-    }
-  }
-);
+// watch(
+//   () => props.initial_value,
+//   (value) => {
+//     if (props.initial_value) {
+//       select(props.initial_value);
+//     }
+//   }
+// );
 
 const select_tag = async function ({ tag, $event }) {
   $event.stopPropagation();
   data.active = false;
 
-  data.value = tag.title;
+  data.text_input_value = "";
   data.selected_option_data = tag;
+  data.selected_option_data_arr.push(tag);
 
-  emit("change", tag.value);
+  emit(
+    "change",
+    data.selected_option_data_arr.map((item) => item.value)
+  );
 };
 
 // internal
-const select = function (value) {
-  try {
-    data.selected_option_data = data.selected_option_data.find((item) => item.value === value);
-    data.value = data.selected_option_data.value;
-  } catch (e) {}
-};
+// const select = function (value) {
+//   try {
+//     data.selected_option_data = data.option_data_arr.find((item) => item.value === value);
+//     data.selected_option_data_arr.push(data.selected_option_data);
+//     console.log("data.selected_option_data_arr", data.selected_option_data_arr);
+//     data.value = data.selected_option_data.value;
+//   } catch (error) {
+//     console.log("error", error);
+//   }
+// };
 
 const filter_option_data_arr = function () {
-  var value = data.value.toLowerCase();
-  var option_data = null;
+  var value = data.text_input_value.toLowerCase();
+  var option_data: any = null;
   var results_available_flag = false;
   var tag_already_exists_flag = false;
   var results_available_number = 0;
@@ -116,12 +133,24 @@ const chromane_select_input = function () {
 };
 
 const chromane_select_click = function (event) {
-  data.value = "";
+  data.text_select_value = "";
   data.active = true;
   filter_option_data_arr();
   event.stopPropagation();
-  emit("change", data.value);
+  // emit("change", data.value);
 };
+
+function unselect_option(option, event) {
+  event.stopPropagation();
+  let index = data.selected_option_data_arr.indexOf(option);
+  data.selected_option_data_arr.splice(index, 1);
+  //
+  emit(
+    "change",
+    data.selected_option_data_arr.map((item) => item.value)
+  );
+  //
+}
 </script>
 
 <template>
@@ -134,7 +163,7 @@ const chromane_select_click = function (event) {
       <input
         type="text"
         v-bind:placeholder="props.title"
-        v-model="data.value"
+        v-model="data.text_input_value"
         @input="chromane_select_input"
       />
       <svg
@@ -143,6 +172,36 @@ const chromane_select_click = function (event) {
       >
         <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
       </svg>
+    </div>
+
+    <div
+      class="chromane_tag_container"
+      v-if="data.selected_option_data_arr.length > 0"
+    >
+      <div
+        class="chromane_tag"
+        v-for="tag in data.selected_option_data_arr"
+        v-bind:key="tag.value"
+        v-bind:class="{ active: true }"
+      >
+        <span v-text="tag.title"></span>
+
+        <div
+          class="svg"
+          v-html="icon_close_thick"
+          v-if="tag.status === 'idle'"
+          v-on:click="unselect_option(tag, $event)"
+        ></div>
+
+        <div
+          class="chromane-spinner"
+          v-if="tag.status === 'progress'"
+        ></div>
+        <div
+          class="chromane_tag-overlay"
+          v-if="tag.status === 'progress'"
+        ></div>
+      </div>
     </div>
 
     <div class="chromane-select-option_data_arr">
@@ -164,7 +223,7 @@ const chromane_select_click = function (event) {
   </div>
 </template>
 
-<style>
+<style lang="scss">
 /* chromane-select */
 
 .chromane-select {
@@ -172,6 +231,7 @@ const chromane_select_click = function (event) {
   width: 100%;
   border-radius: 4px;
   background: transparent;
+  // border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .chromane-select.active {
@@ -213,12 +273,13 @@ const chromane_select_click = function (event) {
 }
 
 .chromane-select-option_data_arr {
-  position: relative;
+  position: absolute;
   display: none;
   overflow: auto;
   z-index: 10000;
 
   left: 0px;
+  top: 36px;
   max-height: 400px;
   width: calc(100% + 0px);
 
@@ -306,5 +367,87 @@ const chromane_select_click = function (event) {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.12);
+}
+
+.chromane_tag_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+
+  width: 100%;
+  padding: 8px 0px;
+}
+
+.chromane_tag {
+  position: relative;
+  overflow: hidden;
+
+  display: none;
+  flex-direction: row;
+  align-items: center;
+
+  height: 30px;
+  width: fit-content;
+  padding: 4px 6px 4px 8px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+
+  border-radius: 3px;
+  background-color: #c2c2c2;
+}
+
+.chromane_tag.active {
+  display: flex;
+}
+
+.chromane_tag span {
+  margin-right: 6px;
+  flex-shrink: 0;
+  max-width: 420px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.chromane_tag svg {
+  height: 16px;
+  width: 16px;
+
+  cursor: pointer;
+  fill: #434242;
+}
+
+.chromane_tag .chromane-spinner {
+  width: 13px;
+  height: 13px;
+}
+
+.chromane_tag-overlay {
+  position: absolute;
+  z-index: 90;
+
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.chromane-spinner {
+  border: 2px solid rgba(0, 0, 0, 0.9);
+  border-radius: 50%;
+  border-top: 2px solid white;
+  width: 18px;
+  height: 18px;
+  animation: chromane-spinner 0.75s linear infinite;
+}
+
+@keyframes chromane-spinner {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 </style>

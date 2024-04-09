@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MessageSimple from "@common/vue/comp/MessageSimple.vue";
+import MessageSimple from "../comp/MessageSimple.vue";
 </script>
 
 <template>

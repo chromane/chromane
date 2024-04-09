@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { VNodeRef, onMounted, ref, watch } from "vue";
+import { onMounted, reactive, watch, ref } from "vue";
 const emit = defineEmits<{
   (e: "change_event", data: any): void;
 }>();
-const input_ref = ref<VNodeRef | null>(null);
+const input_ref = ref(null);
 const props = defineProps<{
   title: string;
   initial_value: any;

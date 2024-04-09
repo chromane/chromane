@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import Message from "@shared/vue_app/vue/comp/Message.vue";
-import ill_ask from "@shared/svg/ill/ask.svg?raw";
+// import ill_ask from "@shared/svg/ill/ask.svg?raw";
+import Message from "../comp/Message.vue";
+// todo: Restore this
+let ill_ask = "";
 </script>
 
 <template>

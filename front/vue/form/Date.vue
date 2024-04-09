@@ -4,6 +4,7 @@ let emit = defineEmits<{
   (e: "change_event", data: any): void;
 }>();
 let input_ref = ref<VNodeRef | null>(null);
+
 const props = defineProps<{
   form_state: any;
   form_field: any;
@@ -20,7 +21,6 @@ watch(
     immediate: true,
   }
 );
-
 function handle_input() {
   props.form_state[props.form_field.name] = input_ref.value.value;
 }
@@ -29,7 +29,7 @@ function handle_input() {
 <template>
   <input
     ref="input_ref"
-    type="text"
+    type="date"
     class="form-control"
     autocomplete="chrome-off"
     v-bind:placeholder="props.form_field.placeholder || props.form_field.title"

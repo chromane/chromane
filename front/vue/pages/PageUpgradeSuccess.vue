@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import ctrl from "./ext_ctrl";
 import mdi_star_box from "@mdi/svg/svg/star-box.svg?raw";
-
-import Button from "@common/vue/comp/Button.vue";
-import MessageSimple from "@common/vue/comp/MessageSimple.vue";
-
+import Button from "@chromane/front/vue/comp/Button.vue";
+import MessageSimple from "@chromane/front/vue/comp/MessageSimple.vue";
+import type CloudIframe from "../../ts/CloudIframe";
+const props = defineProps<{
+  ctrl: CloudIframe;
+}>();
 let methods = {
   async continue() {
-    ctrl.go_back();
+    props.ctrl.go_back();
   },
 };
 </script>

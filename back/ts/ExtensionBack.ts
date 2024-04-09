@@ -15,7 +15,7 @@ import { FieldValue, QueryDocumentSnapshot, Query } from "firebase-admin/firesto
 import fs from "fs";
 import fs_extra from "fs-extra";
 
-import util from "@common/ts/util";
+import util from "@chromane/shared/ts/util";
 import { Bucket } from "@google-cloud/storage";
 import Busboy from "busboy";
 

@@ -17,34 +17,13 @@ import mdi_home from "@mdi/svg/svg/home.svg?raw";
 import mdi_log_in from "@mdi/svg/svg/login-variant.svg?raw";
 import mdi_log_out from "@mdi/svg/svg/logout-variant.svg?raw";
 import mdi_account from "@mdi/svg/svg/account-circle.svg?raw";
-import mdi_folder_play from "@mdi/svg/svg/folder-play.svg?raw";
 import mdi_comment from "@mdi/svg/svg/comment-quote-outline.svg?raw";
-import mdi_filmstrip_box from "@mdi/svg/svg/filmstrip-box.svg?raw";
-import mdi_filmstrip_box_multiple from "@mdi/svg/svg/filmstrip-box-multiple.svg?raw";
 import mdi_star_circle from "@mdi/svg/svg/star-circle.svg?raw";
 import mdi_crown from "@mdi/svg/svg/crown.svg?raw";
 import mdi_finance from "@mdi/svg/svg/finance.svg?raw";
 //
 //
 let ext_pages = [
-  {
-    name: "main",
-    title: "Main",
-    page: PageMain,
-    icon: mdi_home,
-  },
-  {
-    name: "video",
-    title: "Video",
-    page: PageVideo,
-    icon: mdi_filmstrip_box,
-  },
-  {
-    name: "collection",
-    title: "My collection",
-    page: PageCollection,
-    icon: mdi_filmstrip_box_multiple,
-  },
   {
     name: "account",
     title: "My account",
@@ -99,7 +78,6 @@ let ext_pages = [
     page: PageUpgradeSuccess,
     icon: mdi_star_circle,
   },
-
   {
     name: "permissions",
     title: "Permissions",
@@ -117,12 +95,6 @@ let ext_pages = [
     title: "Admin",
     page: PageAdmin,
     icon: mdi_crown,
-  },
-  {
-    name: "admin_collection",
-    title: "Admin collection",
-    page: PageAdminCollection,
-    icon: mdi_filmstrip_box_multiple,
   },
   {
     name: "admin_stats",

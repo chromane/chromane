@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import ctrl from "./ext_ctrl";
-import store from "./ext_store";
+import type CloudIframe from "../../ts/CloudIframe";
+const props = defineProps<{
+  ctrl: CloudIframe;
+}>();
 
 import icon_check from "@mdi/svg/svg/check.svg?raw";
 import mdi_alert_box from "@mdi/svg/svg/alert-box.svg?raw";
-import svg_bg_1 from "../slots/pattern.svg?raw";
 
-import Button from "@common/vue/comp/Button.vue";
+let svg_bg_1 = "";
+
+import Button from "@chromane/front/vue/comp/Button.vue";
 import { reactive } from "vue";
 
-import MessageSimple from "@common/vue/comp/MessageSimple.vue";
+import MessageSimple from "@chromane/front/vue/comp/MessageSimple.vue";
 
 let model = reactive({
   svg_bg_1,
@@ -82,16 +85,7 @@ let methods = {
     <div class="background-inner"></div>
     <div class="svg-bg"></div>
     <div class="page-pricing-fg">
-      <MessageSimple
-        v-if="store.free_limit_reached_flag"
-        :model="{
-          type: 'info',
-          title: 'Free daily limit reached.',
-          text: 'ChatGPT Prompt Generator for Business gives you 3 free prompts per day totally free. Please upgrade your account if you want to access UNLIMITED propmpts EVERY DAY.',
-          icon: mdi_alert_box,
-        }"
-      ></MessageSimple>
-      <div class="page-pricing-header">Try Patch Tagger for free for 14 Days</div>
+      <div class="page-pricing-header">Try this Extension for free for 14 Days</div>
       <div class="page-pricing-header-sub">Subscribe now. Cancel anytime.</div>
       <div class="pricing-plan-container">
         <div
@@ -227,7 +221,8 @@ let methods = {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(169deg, #2854ff -2.68%, #00020c 116.81%);
+  background: var(--gradient-primary);
+  filter: brightness(0.5) saturate(0.5);
 }
 .svg-bg svg {
   opacity: 0.4;
@@ -242,7 +237,6 @@ let methods = {
   height: 100%;
   top: 0px;
   left: 0px;
-  background-image: url(/static/x/patch_tagger/pattern.svg);
   background-repeat: repeat;
   filter: brightness(0.75);
   filter: grayscale(1);

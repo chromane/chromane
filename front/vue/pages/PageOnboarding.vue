@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import MessageSimple from "@common/vue/comp/MessageSimple.vue";
-import Form from "@common/vue/form/Form.vue";
-import Button from "@common/vue/comp/Button.vue";
+import type CloudIframe from "../../ts/CloudIframe";
+const props = defineProps<{
+  ctrl: CloudIframe;
+}>();
+
+import MessageSimple from "@chromane/front/vue/comp/MessageSimple.vue";
 
 import { reactive } from "vue";
-import ext_ctrl from "./ext_ctrl";
 // todo:
 // add form validation here
 // and required fields ( message )
@@ -33,19 +35,6 @@ let model = reactive({
   ],
 });
 
-async function send_feedback() {
-  ext_ctrl.blocking_inc();
-  await ext_ctrl.firebase_manager.backend_proxy.modules.chromane.website_message({
-    client_id: "website",
-    hostname: "Bloom chrome extension",
-    name: model.form_state.name,
-    email: model.form_state.email,
-    message: model.form_state.message,
-  });
-  model.form_state = {};
-  model.stage_name = "message_sent";
-  ext_ctrl.blocking_dec();
-}
 function continue_click() {
   model.stage_name = "initial";
 }
@@ -58,7 +47,7 @@ function continue_click() {
         class="mb-4"
         :model="{
           type: 'success',
-          title: 'Thank you for installing Patch Tagger',
+          title: 'Thank you for installing this Extension',
           text: 'Thank you for installing and using this extension. On this page you can find basic instructions on how to use this browser plugin, along with simple videos that show off functionality.',
         }"
       ></MessageSimple>

@@ -1,23 +1,23 @@
 <script setup lang="ts">
 //
-import type CloudIframe from "@chromane/ts/vue_app/ts/CloudIframe";
+import type CloudIframe from "@chromane/front/ts/CloudIframe";
 const props = defineProps<{
   ctrl: CloudIframe;
 }>();
 //
-import local_google from "@common/svg/google.svg?raw";
+import local_google from "@chromane/front/svg/google.svg?raw";
 import mdi_mail from "@mdi/svg/svg/email-outline.svg?raw";
 import mdi_eye_off from "@mdi/svg/svg/eye-off.svg?raw";
 import mdi_eye from "@mdi/svg/svg/eye.svg?raw";
 import mdi_key from "@mdi/svg/svg/key-variant.svg?raw";
 import mdi_info_box from "@mdi/svg/svg/information-box.svg?raw";
 
-import Button from "@common/vue/comp/Button.vue";
-import MessageSimple from "@common/vue/comp/MessageSimple.vue";
-import CardError from "@common/vue/comp/CardError.vue";
-import Divider from "@common/vue/comp/Divider.vue";
+import Button from "@chromane/front/vue/comp/Button.vue";
+import MessageSimple from "@chromane/front/vue/comp/MessageSimple.vue";
+import CardError from "@chromane/front/vue/comp/CardError.vue";
+import Divider from "@chromane/front/vue/comp/Divider.vue";
 import { reactive } from "vue";
-import { BackendCodes } from "../../../types/types";
+import { BackendCodes } from "@chromane/shared/types/types";
 
 type PageName = "create_account" | "email_code" | "log_in";
 let model = reactive({

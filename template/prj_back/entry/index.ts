@@ -1,4 +1,4 @@
-import { BackendCodes, BackendResponse } from "chromane/shared/types/types";
+import { BackendCodes, BackendResponse } from "@chromane/shared/types/types";
 import http from "http";
 //
 async function chromane_cors(req: Request, res: any, callback) {
@@ -17,7 +17,7 @@ async function chromane_cors(req: Request, res: any, callback) {
 import config from "@shared/config";
 import secrets from "@shared/secrets";
 import Backend from "@shared/backend/Backend";
-import util from "@common/ts/util";
+import util from "@chromane/shared/ts/util";
 //
 let backend = new Backend(config, secrets);
 //

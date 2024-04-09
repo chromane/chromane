@@ -4,8 +4,10 @@ import { cert } from "firebase-admin/app";
 import { decode_jwt } from "@chromane/shared/ts/util";
 import Stripe from "stripe";
 const { google } = require("googleapis");
-import { FirebaseApp, initializeApp } from "firebase/app";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithCredential, signInWithEmailAndPassword } from "firebase/auth";
+// import { FirebaseApp, initializeApp } from "firebase/app";
+// import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithCredential, signInWithEmailAndPassword } from "firebase/auth";
+import sgMail from "@sendgrid/mail";
+import { BackendCodes } from "@chromane/shared/types/types";
 
 function str_arr_to_str(input: string | string[] | undefined) {
   if (input instanceof Array) {
@@ -20,6 +22,7 @@ function str_arr_to_str(input: string | string[] | undefined) {
     return "";
   }
 }
+
 function customer_to_status(customer: any, premium_product_id: string) {
   try {
     let sub_data_arr = customer.subscriptions.data;
@@ -41,31 +44,14 @@ function customer_to_status(customer: any, premium_product_id: string) {
   return "free";
 }
 
-export default class BackendDefault {
-  // props
-  jwt_claims: any;
-  config: any;
-  secrets: any;
-  //
-  app: any;
-  db: admin.firestore.Firestore;
-  bucket: Bucket;
-  //   init
-  constructor(config, secrets, jwt_claims) {
-    this.jwt_claims = jwt_claims;
-    this.config = config;
-    this.secrets = secrets;
-    //
-    this.app = admin.initializeApp({
-      credential: cert(secrets.service_account as admin.ServiceAccount),
-      storageBucket: config.firebase_config.storageBucket,
-    });
-    this.db = this.app.firestore();
-    this.bucket = admin.storage().bucket();
-  }
-  // save_user_as_lead
+let _config: any = {};
+let _secrets: any = {};
 
+class CommonOld {
+  //
+  // save_user_as_lead
   // public
+  //
   async get_user(req) {
     const decoded_token = await admin.auth().verifyIdToken(req.body.token);
     const user = await admin.auth().getUser(decoded_token.uid);
@@ -130,7 +116,6 @@ export default class BackendDefault {
       location: `chrome-extension://${this.config.extension_id}/pages/redirect/index.html?code=${req.query.code}&state=${req.query.state}&event_name=${req.query.event_name}`,
     };
   }
-
   // oauth and search console api
   get_default_oauth_client() {
     //
@@ -520,6 +505,74 @@ export default class BackendDefault {
     } else {
       return "";
     }
+  }
+  //
+}
+
+class Common {
+  async ping() {
+    return "pong";
+  }
+  async send_user_feedback(data) {
+    if (data.client_id === "website") {
+      // gc_log("website", data);
+      sgMail.setApiKey(_secrets.sendgrid_api_key);
+      //
+      const msg = {
+        to: "vlas@chromane.com",
+        from: {
+          email: "bot@chromane.com",
+          name: "Chromane",
+        },
+        subject: `Message from ${data.hostname}`,
+        html: `
+            <b>Name:</b><br></br>
+            <i>${data.name}</i><br></br><br></br>
+            <b>Email:</b><br></br>
+            <i>${data.email}</i><br></br><br></br>
+            <b>Message:</b><br></br>
+            <i>${data.message}</i>
+            `,
+      };
+      await sgMail.send(msg);
+      return { code: BackendCodes.SUCCESS };
+    } else {
+      return null;
+    }
+  }
+}
+
+export default class BackendDefault {
+  // props
+  // jwt_claims: any;
+  // config: any;
+  // secrets: any;
+  // //
+  // app: any;
+  // db: admin.firestore.Firestore;
+  // bucket: Bucket;
+  // modules = {
+  //   chromane: {
+
+  //   },
+  // };
+  // init
+  common: Common;
+  constructor(config, secrets) {
+    _config = config;
+    _secrets = secrets;
+    this.common = new Common();
+    // _secrets = secrets;
+    // this.jwt_claims = jwt_claims;
+    // this.config = config;
+    // this.secrets = secrets;
+    // //
+    // this.app = admin.initializeApp({
+    //   credential: cert(secrets.service_account as admin.ServiceAccount),
+    //   storageBucket: config.firebase_config.storageBucket,
+    // });
+    // this.db = this.app.firestore();
+    // this.bucket = admin.storage().bucket();
   }
   //
 }

@@ -990,8 +990,8 @@ export default class Popup {
       new_status = PopupStatus.solid_popup;
       solid_popup_rect = this.get_popup_rect_small();
     } else if (status === "upgrade_popup") {
-      new_status = PopupStatus.solid_popup;
-      solid_popup_rect = this.get_popup_rect_big();
+      new_status = PopupStatus.draggable_overlay;
+      draggable_overlay_rect = this.get_popup_rect_big();
     } else if (status === PopupStatus.draggable_overlay) {
       new_status = PopupStatus.draggable_overlay;
       if (info && info.width && info.height) {
@@ -1074,6 +1074,15 @@ export default class Popup {
       this.rect_apply();
       this.set_container_mode(ContainerMode.bubble);
       this.set_class("chromane-logo-status", "active");
+    } else if (this.status === PopupStatus.draggable_window && new_status === PopupStatus.draggable_overlay) {
+      this.set_transition_status(TransitionStatus.active);
+      let rect = draggable_overlay_rect;
+      this.rect_set_apply(rect);
+      this.status = PopupStatus.draggable_overlay;
+      this.set_overlay_status("active");
+      this.set_class("chromane-logo-status", "not-active");
+      this.set_container_mode(ContainerMode.popup);
+      this.rect_set_apply(rect);
     } else if (this.status === PopupStatus.bubble && new_status === PopupStatus.draggable_overlay) {
       this.set_transition_status(TransitionStatus.active);
       let rect = draggable_overlay_rect;
