@@ -36,12 +36,12 @@ let ext_pages = [
     page: PageFeedback,
     icon: mdi_comment,
   },
-  {
-    name: "settings",
-    title: "Settings",
-    page: PageSettings,
-    icon: mdi_home,
-  },
+  // {
+  //   name: "settings",
+  //   title: "Settings",
+  //   page: PageSettings,
+  //   icon: mdi_home,
+  // },
   {
     name: "auth",
     title: "Log in",

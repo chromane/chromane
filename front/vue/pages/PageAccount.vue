@@ -40,7 +40,7 @@ let methods = {};
     </div>
     <div
       class="section"
-      v-if="false && props.store.auth && props.store.auth.doc && props.store.auth.doc.status !== 'unlimited'"
+      v-if="props.store.auth && props.store.auth.doc && props.store.auth.doc.status !== 'unlimited'"
     >
       <div class="title">Your subscription</div>
       <div class="text">You are now on a free plan. Click the button below to upgrade.</div>
@@ -57,7 +57,7 @@ let methods = {};
     </div>
     <div
       class="section"
-      v-if="false && props.store.auth && props.store.auth.doc && props.store.auth.doc.status === 'unlimited'"
+      v-if="props.store.auth && props.store.auth.doc && props.store.auth.doc.status === 'unlimited'"
     >
       <div class="title">Your subscription</div>
       <div class="text">You are now on a premium plan. Click the button below to manage your subscription.</div>
@@ -72,12 +72,9 @@ let methods = {};
         </Button>
       </div>
     </div>
-    <div
-      class="section"
-      v-if="false"
-    >
+    <div class="section">
       <div class="title">Delete account</div>
-      <div class="text">You are now on a free plan. Click the button below to upgrade.</div>
+      <div class="text">If you want us to delete all data associated with your account - click the button below.</div>
       <div class="actions">
         <Button
           :model="{

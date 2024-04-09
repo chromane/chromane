@@ -6,8 +6,7 @@ const props = defineProps<{
 
 import icon_check from "@mdi/svg/svg/check.svg?raw";
 import mdi_alert_box from "@mdi/svg/svg/alert-box.svg?raw";
-
-let svg_bg_1 = "";
+import svg_bg_1 from "@chromane/front/svg/upgrade-bg.svg?raw";
 
 import Button from "@chromane/front/vue/comp/Button.vue";
 import { reactive } from "vue";
@@ -83,7 +82,10 @@ let methods = {
 <template>
   <div class="page-pricing">
     <div class="background-inner"></div>
-    <div class="svg-bg"></div>
+    <div
+      class="svg-bg"
+      v-html="model.svg_bg_1"
+    ></div>
     <div class="page-pricing-fg">
       <div class="page-pricing-header">Try this Extension for free for 14 Days</div>
       <div class="page-pricing-header-sub">Subscribe now. Cancel anytime.</div>
@@ -212,7 +214,7 @@ let methods = {
 }
 .svg-bg {
   position: absolute;
-  z-index: 9;
+  z-index: 99;
   overflow: hidden;
   width: 100%;
   height: 100%;
@@ -221,26 +223,22 @@ let methods = {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--gradient-primary);
-  filter: brightness(0.5) saturate(0.5);
 }
 .svg-bg svg {
-  opacity: 0.4;
   flex-shrink: 0;
   min-width: 100%;
   min-height: 100%;
 }
 .background-inner {
   position: absolute;
-  z-index: 99;
+  z-index: 9;
   width: 100%;
   height: 100%;
   top: 0px;
   left: 0px;
   background-repeat: repeat;
-  filter: brightness(0.75);
-  filter: grayscale(1);
-  opacity: 0.8;
+  background: var(--gradient-primary);
+  opacity: 0.5;
 }
 .page-pricing-toggle {
   display: flex;
@@ -294,18 +292,18 @@ let methods = {
   padding: 36px 24px 24px 24px;
 }
 .page-pricing-header {
-  font-size: 36px;
+  color: rgba(0, 0, 0, 0.8);
+  font-size: 42px;
   font-weight: 600;
-  color: rgba(256, 256, 256, 1);
-  filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.235));
+  filter: drop-shadow(1px 2px 1px rgba(0, 0, 0, 0.235));
   margin-bottom: 12px;
   margin-top: 36px;
 }
 .page-pricing-header-sub {
+  color: rgba(0, 0, 0, 0.85);
   font-size: 16px;
   font-weight: 600;
-  color: rgba(256, 256, 256, 0.8);
-  filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.235));
+  filter: drop-shadow(1px 2px 1px rgba(0, 0, 0, 0.235));
   margin-bottom: 24px;
 }
 .pricing-plan-container {
