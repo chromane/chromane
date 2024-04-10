@@ -668,9 +668,7 @@ class Util {
       };
     });
   }
-  pad(n: number) {
-    return n < 10 ? `0${n}` : `${n}`;
-  }
+
   get_url(base: string, version_frontend?: string) {
     return base.replace("{version_frontend}", version_frontend || "");
   }

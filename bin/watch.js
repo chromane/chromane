@@ -6,7 +6,7 @@ let source = path.resolve("../chromane");
 let destinations = [
   //
   path.resolve("../link_spotter/node_modules/chromane"),
-  path.resolve("../swift/node_modules/chromane"),
+  path.resolve("../swift_quote/node_modules/chromane"),
 ];
 
 console.log(source);

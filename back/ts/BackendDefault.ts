@@ -1,4 +1,5 @@
-import { Bucket } from "@google-cloud/storage";
+// import { Bucket } from "@google-cloud/storage";
+import { auth, GoogleAuth } from "google-auth-library";
 import { decode_jwt } from "@chromane/shared/ts/util";
 import Stripe from "stripe";
 const { google } = require("googleapis");
@@ -6,6 +7,7 @@ const { google } = require("googleapis");
 // import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithCredential, signInWithEmailAndPassword } from "firebase/auth";
 import sgMail from "@sendgrid/mail";
 import { BackendCodes } from "@chromane/shared/types/types";
+import { encode_json } from "@chromane/shared/ts/helpers";
 
 let _config: any = {};
 let _secrets: any = {};
@@ -20,6 +22,10 @@ function get_default_oauth_client() {
 }
 
 class Common {
+  backend: BackendDefault;
+  constructor(backend) {
+    this.backend = backend;
+  }
   async ping() {
     return "pong";
   }
@@ -49,6 +55,34 @@ class Common {
     } else {
       return null;
     }
+  }
+  async gc_log(payload) {
+    let access_token = await this.backend.internal.auth.getAccessToken();
+    let url = `https://logging.googleapis.com/v2/entries:write`;
+    let log_id = "chromane";
+    let body = {
+      // logName: "ryan_ghassabian",
+      entries: [
+        {
+          logName: `projects/${this.backend.internal.config.gc_id}/logs/${log_id}`,
+          resource: {
+            type: "global",
+            labels: {
+              project_id: "chromane",
+            },
+          },
+          jsonPayload: payload,
+        },
+      ],
+    };
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${access_token}`,
+      },
+      body: encode_json(body),
+    });
   }
 }
 
@@ -82,6 +116,7 @@ class Internal {
   config: any;
   secrets: any;
   auth_client: any;
+  auth: GoogleAuth;
   // admin: admin.app.App;
   constructor(config, secrets) {
     _config = config;
@@ -89,6 +124,8 @@ class Internal {
     this.secrets = secrets;
     this.config = config;
     this.auth_client = get_default_oauth_client();
+    let auth = new GoogleAuth({ credentials: this.secrets.service_account });
+    this.auth = auth;
     // _admin = admin.initializeApp({
     //   credential: cert(_secrets.google_service_account as admin.ServiceAccount),
     // });
@@ -116,7 +153,7 @@ export default class BackendDefault {
   auth: Auth;
   constructor(config, secrets) {
     this.internal = new Internal(config, secrets);
-    this.common = new Common();
+    this.common = new Common(this);
     this.auth = new Auth();
     // _secrets = secrets;
     // this.jwt_claims = jwt_claims;

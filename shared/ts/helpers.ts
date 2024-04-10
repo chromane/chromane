@@ -244,3 +244,41 @@ export function url_to_params(url: string) {
     return params;
   }
 }
+
+export function compare(obj_1, obj_2) {
+  if (obj_1 === obj_2) {
+    return true;
+  } else if (obj_1 instanceof Date && obj_2 instanceof Date) {
+    return obj_1.getTime() === obj_2.getTime();
+  } else if (obj_1 === null && obj_2 === null) {
+    return true;
+  } else if (typeof obj_1 === "object" && typeof obj_2 === "object" && obj_1 !== null && obj_2 !== null) {
+    var key_arr_1 = Object.keys(obj_1);
+    var key_arr_2 = Object.keys(obj_2);
+    var equal;
+
+    for (var i = key_arr_1.length; i--; ) {
+      equal = this.compare(obj_1[key_arr_1[i]], obj_2[key_arr_1[i]]);
+
+      if (equal === false) {
+        return false;
+      }
+    }
+
+    for (var i = key_arr_2.length; i--; ) {
+      equal = this.compare(obj_1[key_arr_2[i]], obj_2[key_arr_2[i]]);
+
+      if (equal === false) {
+        return false;
+      }
+    }
+
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function pad(n: number) {
+  return n < 10 ? `0${n}` : `${n}`;
+}
