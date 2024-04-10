@@ -14,18 +14,6 @@
     "img": true,
     // ".vscode": true,
     "dist": true,
-    // firebase
-    "firebase/.firebase": true,
-    "firebase/.firebaserc": true,
-    "firebase/firebase.json": true,
-    "firebase/functions/package-lock.json": true,
-    "firebase/functions/package.json": true,
-    // src
-    "src/img": true,
-    //
-    "firebase": true,
-    "firebase/public": true,
-    "firebase/functions": true,
     //
     "temp_frontend_webpack": true,
     "temp_extension_webpack": true,

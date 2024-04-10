@@ -22,5 +22,5 @@
     "skipLibCheck": true
   },
   "include": ["../prj_extension/src/**/*", "types.d.ts", "../node_modules/@types", "../shared/**/*", "../common/**/*"],
-  "exclude": ["dist", "firebase", "../temp"]
+  "exclude": ["dist", "../temp"]
 }

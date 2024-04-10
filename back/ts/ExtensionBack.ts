@@ -1,6 +1,4 @@
 // firebase admin
-import * as admin from "firebase-admin";
-import { cert } from "firebase-admin/app";
 
 const { exec, spawn, execSync } = require("child_process");
 // firebase regular
@@ -10,7 +8,6 @@ import sgMail from "@sendgrid/mail";
 import Stripe from "stripe";
 import { FirebaseApp, initializeApp } from "firebase/app";
 const { google } = require("googleapis");
-import { FieldValue, QueryDocumentSnapshot, Query } from "firebase-admin/firestore";
 // import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
 import fs_extra from "fs-extra";

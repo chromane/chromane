@@ -11,8 +11,6 @@ import WebpackDevServer from "webpack-dev-server";
 import { VueLoaderPlugin } from "vue-loader";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { globSync } from "glob";
-import * as admin_app from "firebase-admin/app";
-import admin from "firebase-admin";
 import dirnames from "./dirnames.js";
 //
 async function move_backend_to_vm() {

@@ -13,5 +13,3 @@ node_modules
 /temp_ext_build
 /temp_ext_webpack
 /temp_back
-
-/firebase/firebase-debug.log

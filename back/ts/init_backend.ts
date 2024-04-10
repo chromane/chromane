@@ -61,7 +61,13 @@ export default function init_backend(backend: BackendDefault, mode) {
           let module_name = path.split(".")[0];
           let method_name = path.split(".")[1];
           //
-          if (backend[module_name]) {
+          if (
+            //
+            backend[module_name] &&
+            module_name !== "internal" &&
+            module_name !== "private" &&
+            module_name !== "protected"
+          ) {
             if (backend[module_name][method_name]) {
               console.log("calling");
               console.log(`${module_name}.${method_name}`);

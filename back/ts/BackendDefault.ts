@@ -1,6 +1,4 @@
 import { Bucket } from "@google-cloud/storage";
-import * as admin from "firebase-admin";
-import { cert } from "firebase-admin/app";
 import { decode_jwt } from "@chromane/shared/ts/util";
 import Stripe from "stripe";
 const { google } = require("googleapis");
@@ -11,6 +9,7 @@ import { BackendCodes } from "@chromane/shared/types/types";
 
 let _config: any = {};
 let _secrets: any = {};
+// let _admin: admin.app.App;
 
 function get_default_oauth_client() {
   let client_id = _config.google_client_id;
@@ -60,7 +59,6 @@ class Auth {
       location: `chrome-extension://${_config.extension_id}/pages/redirect/index.html?code=${query_params.code}&state=${query_params.state}&event_name=${query_params.event_name}`,
     };
   }
-
   async sign_in_with_google_code(code) {
     let client = get_default_oauth_client();
     const { tokens } = await client.getToken(code);
@@ -80,6 +78,24 @@ class Auth {
   }
 }
 
+class Internal {
+  config: any;
+  secrets: any;
+  auth_client: any;
+  // admin: admin.app.App;
+  constructor(config, secrets) {
+    _config = config;
+    _secrets = secrets;
+    this.secrets = secrets;
+    this.config = config;
+    this.auth_client = get_default_oauth_client();
+    // _admin = admin.initializeApp({
+    //   credential: cert(_secrets.google_service_account as admin.ServiceAccount),
+    // });
+    // this.admin = _admin;
+  }
+}
+
 export default class BackendDefault {
   // props
   // jwt_claims: any;
@@ -95,11 +111,11 @@ export default class BackendDefault {
   //   },
   // };
   // init
+  internal: Internal;
   common: Common;
   auth: Auth;
   constructor(config, secrets) {
-    _config = config;
-    _secrets = secrets;
+    this.internal = new Internal(config, secrets);
     this.common = new Common();
     this.auth = new Auth();
     // _secrets = secrets;
