@@ -1,8 +1,8 @@
 // todo: bugfix: sometimes popup covers other components
 // todo: feature: update popup on window resize
 import util from "../../../shared/ts/util";
-import popup_html from "./popup.raw.html?raw";
-import popup_css from "./popup.raw.css?raw";
+import popup_html from "./popup.html?raw";
+import popup_css from "./popup.css?raw";
 import logo_progress_svg from "../../svg/ripple.svg?raw";
 import ContentBasic from "../ContentBasic";
 // import { ExtensionIframeInteraface, FirebaseIframeInterface } from "@common/types/types";

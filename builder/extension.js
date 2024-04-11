@@ -152,6 +152,10 @@ function get_webpack_config(mode) {
         test: /\.raw\.html\?raw$/,
         use: "raw-loader",
       },
+      {
+        test: /\.html\?inline$/,
+        use: "raw-loader",
+      },
     ],
   };
   let entry = {};

@@ -23,6 +23,9 @@ function get_rollup_input_obj() {
 function get_config(mode, version_frontend) {
   let config_json = fs_extra.readJsonSync(dirnames.config);
   return {
+    optimizeDeps: {
+      exclude: ["@chromane", "chromane"],
+    },
     define: {
       CHROMANE_CONFIG_MODE: JSON.stringify(mode),
       CHROMANE_CONFIG_JSON: JSON.stringify(config_json),
@@ -93,6 +96,7 @@ function get_config(mode, version_frontend) {
         // "@chromane": "chromane",
         // "@common": dirnames.common,
         // "@shared": dirnames.shared,
+        { find: "@root", replacement: dirnames.prj_root },
         { find: "@common", replacement: dirnames.common },
         { find: "@shared", replacement: dirnames.shared },
         { find: "@chromane", replacement: path.resolve(dirnames.prj_root, "node_modules", "chromane") },

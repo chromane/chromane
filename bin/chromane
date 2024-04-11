@@ -14,7 +14,7 @@ if (arg_1 === "dev") {
   builder.common.build_versions();
   builder.backend.watch();
   builder.frontend.watch();
-  builder.extension.watch();
+  // builder.extension.watch();
   // builder.firebase.serve();
 } else if (arg_1 === "init") {
   builder.common.init();
