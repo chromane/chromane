@@ -19,6 +19,13 @@ export default {
       path.resolve(dirnames.prj_root, "node_modules", "chromane", "template"),
       path.resolve(dirnames.prj_root)
     );
+    // This is needed because .gitignore is not included
+    // when publishing an npm package
+    fs_extra.renameSync(
+      //
+      path.resolve(dirnames.prj_root, "_gitignore"),
+      path.resolve(dirnames.prj_root, ".gitignore")
+    );
   },
   wait: function (time) {
     return new Promise((resolve) => {

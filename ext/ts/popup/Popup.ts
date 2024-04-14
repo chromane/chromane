@@ -6,9 +6,6 @@ import popup_css from "./popup.css?raw";
 import logo_progress_svg from "../../svg/ripple.svg?raw";
 import ContentBasic from "../ContentBasic";
 // import { ExtensionIframeInteraface, FirebaseIframeInterface } from "@common/types/types";
-console.log("popup_html", popup_html);
-console.log("popup_css", popup_css);
-//
 function distance(dx, dy) {
   return Math.sqrt(dx * dx + dy * dy);
 }
