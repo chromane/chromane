@@ -48,7 +48,7 @@ async function compiler_callback(err, stats) {
     //   console.log("222New version of back created. Process with old server killed.");
     // });
     // _server_process.kill("SIGINT");
-    console.log("1111New version of back created. Process with old server killed.");
+    console.log("New version of back created. Process with old server killed.");
   }
   _server_process = spawn(`node`, `index.js`.split(" "), {
     cwd: path.resolve(dirnames.prj_root, "temp_back"),

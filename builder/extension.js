@@ -57,7 +57,8 @@ function get_webpack_config(mode) {
     return null;
   }
   webpack_data.resolve = {
-    extensions: [".ts", ".tsx", ".js", ".vue", ".raw.html", ".raw.css", ".css"],
+    extensions: [".ts"],
+    //  [".ts", ".tsx", ".js", ".vue", ".raw.html", ".raw.css", ".css", ".css?raw", ".html?raw"],
     alias: {
       "@chromane": path.resolve(dirnames.prj_root, "node_modules", "chromane"),
       "@shared": dirnames.prj_shared,
@@ -66,96 +67,108 @@ function get_webpack_config(mode) {
   webpack_data.module = {
     rules: [
       {
-        test: /\.svg$/,
-        loader: "svg-inline-loader",
-      },
-      {
-        test: /\.svg\?raw$/,
-        loader: "svg-inline-loader",
-      },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-        exclude: /\.raw\./,
-      },
-      {
-        test: /\.scss$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
-        exclude: /\.raw\./,
-      },
-      {
         test: /\.ts$/,
         loader: "ts-loader",
-        exclude: /(\.raw\.)/,
         options: {
           transpileOnly: true,
         },
       },
       {
-        test: /\.vue$/,
-        loader: "vue-loader",
-        exclude: /\.raw\./,
+        // test: /\?raw$/,
+        resourceQuery: /\?raw$/,
+        type: "asset/source",
       },
-      {
-        test: /\.html$/,
-        exclude: /\.raw\./,
-        use: {
-          loader: "html-loader",
-          options: {
-            sources: {
-              list: [
-                {
-                  // Attribute name
-                  attribute: "src",
-                  // Type of processing, can be `src` or `scrset`
-                  type: "src",
-                  // Allow to filter some attributes (optional)
-                  filter: (tag, attribute, attributes, resourcePath) => {
-                    // choose all HTML tags except img tag
-                    if (tag.toLowerCase() === "script") {
-                      return false;
-                    } else if (tag.toLowerCase() === "img") {
-                      return false;
-                    } else if (tag.toLowerCase() === "iframe") {
-                      return false;
-                    } else {
-                      return true;
-                    }
-                  },
-                },
-              ],
-            },
-          },
-        },
-      },
-      {
-        test: /\.txt$/i,
-        use: "raw-loader",
-      },
-      {
-        test: /\.groovy$/i,
-        use: "raw-loader",
-      },
-      {
-        test: /\.raw\.css$/,
-        use: "raw-loader",
-      },
-      {
-        test: /\.raw\.css\?raw$/,
-        use: "raw-loader",
-      },
-      {
-        test: /\.raw\.html$/,
-        use: "raw-loader",
-      },
-      {
-        test: /\.raw\.html\?raw$/,
-        use: "raw-loader",
-      },
-      {
-        test: /\.html\?inline$/,
-        use: "raw-loader",
-      },
+      //       {
+      //   test: /\.css$/,
+      //   use: ["style-loader", "css-loader"],
+      //   exclude: /\.raw\./,
+      // },
+      // {
+      //   test: /\.scss$/,
+      //   use: ["style-loader", "css-loader", "sass-loader"],
+      //   exclude: /\.raw\./,
+      // },
+      // {
+      //   test: /\.vue$/,
+      //   loader: "vue-loader",
+      //   exclude: /\.raw\./,
+      // },
+      // {
+      //   test: /\.html$/,
+      //   exclude: /\.raw\./,
+      //   use: {
+      //     loader: "html-loader",
+      //     options: {
+      //       sources: {
+      //         list: [
+      //           {
+      //             // Attribute name
+      //             attribute: "src",
+      //             // Type of processing, can be `src` or `scrset`
+      //             type: "src",
+      //             // Allow to filter some attributes (optional)
+      //             filter: (tag, attribute, attributes, resourcePath) => {
+      //               // choose all HTML tags except img tag
+      //               if (tag.toLowerCase() === "script") {
+      //                 return false;
+      //               } else if (tag.toLowerCase() === "img") {
+      //                 return false;
+      //               } else if (tag.toLowerCase() === "iframe") {
+      //                 return false;
+      //               } else {
+      //                 return true;
+      //               }
+      //             },
+      //           },
+      //         ],
+      //       },
+      //     },
+      //   },
+      // },
+      // {
+      //   test: /\.txt$/i,
+      //   use: "raw-loader",
+      // },
+      // {
+      //   test: /\.groovy$/i,
+      //   use: "raw-loader",
+      // },
+      // {
+      //   test: /\.raw\.css$/,
+      //   use: "raw-loader",
+      // },
+      // {
+      //   test: /\.raw\.css\?raw$/,
+      //   use: "raw-loader",
+      // },
+      // {
+      //   test: /\.raw\.html$/,
+      //   use: "raw-loader",
+      // },
+      // {
+      //   test: /\.raw\.html\?raw$/,
+      //   use: "raw-loader",
+      // },
+      // {
+      //   test: /\.html\?inline$/,
+      //   use: "raw-loader",
+      // },
+      // {
+      //   test: /\.svg$/,
+      //   loader: "svg-inline-loader",
+      // },
+      // {
+      //   test: /\.svg\?raw$/,
+      //   loader: "svg-inline-loader",
+      // },
+      // {
+      //   test: /\.html\?raw$/,
+      //   use: "raw-loader",
+      // },
+      // {
+      //   test: /\.css\?raw$/,
+      //   use: "raw-loader",
+      // },
     ],
   };
   let entry = {};

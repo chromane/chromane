@@ -110,6 +110,7 @@ class Proxies {
           try {
             var result: any = await instance[name].apply(instance, data);
           } catch (e) {
+            console.log("proxy_error", e);
             var result: any = null;
           }
           if (event.source) {

@@ -7,6 +7,7 @@ import util from "@chromane/shared/ts/util";
 import proxies from "@chromane/shared/ts/proxies";
 import FirebaseManager from "@chromane/front/ts/FirebaseManager";
 import { get_id } from "@chromane/shared/ts/helpers";
+import { watch } from "vue";
 
 export default class CloudIframe {
   // proxies
@@ -29,6 +30,28 @@ export default class CloudIframe {
     this.proxy_backend = proxies.create_proxy_backend<BackendDefault>(ext_config.urls.backend_root);
     //
     this.firebase_manager = new FirebaseManager(this, ext_config, ext_store, ext_config);
+    // watch number of blocking operations
+    watch(
+      () => ext_store.ui_number_of_blocking_operations,
+      async () => {
+        if (ext_store.ui_number_of_blocking_operations === 0) {
+          if (this.window_name === "chromane-popup") {
+            this.proxy_content.blocking_overlay_hide();
+          } else {
+            this.proxy_extension_iframe.blocking_overlay_hide();
+          }
+        } else {
+          if (this.window_name === "chromane-popup") {
+            this.proxy_content.blocking_overlay_show();
+          } else {
+            this.proxy_extension_iframe.blocking_overlay_show();
+          }
+        }
+      },
+      {
+        immediate: true,
+      }
+    );
   }
   drawer_item_click(item) {
     this.ext_store.active_page_comp_name = item.comp_name;
