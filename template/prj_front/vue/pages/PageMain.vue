@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import PrjCloudIframe from "@root/front/ts/PrjCloudIframe";
 const props = defineProps<{
-  ctrl: any;
+  ctrl: PrjCloudIframe;
   store: any;
 }>();
 </script>

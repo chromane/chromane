@@ -1,4 +1,4 @@
-import "../../../slots/project.css";
+import "@shared/slots/project.css";
 
 function main() {
   let config = JSON.parse(window.name);

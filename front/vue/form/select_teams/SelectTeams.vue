@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, reactive } from "vue";
 import { v4 } from "uuid";
-import { Team, Dict } from "@g_types/types";
+import { Team, Dict } from "@chromane/shared/types/types";
 import Option from "./comp/Option.vue";
 
 interface Model {

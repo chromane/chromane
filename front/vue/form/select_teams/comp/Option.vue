@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref, watch } from "vue";
-import { Team } from "@g_types/types";
+import { Team } from "@chromane/shared/types/types";
 import svg_check from "@mdi/svg/svg/check.svg?raw";
 import svg_cursor_click from "@mdi/svg/svg/cursor-default-click-outline.svg?raw";
 

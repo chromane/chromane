@@ -74,15 +74,22 @@ function get_webpack_config(mode) {
         },
       },
       {
-        // test: /\?raw$/,
-        resourceQuery: /\?raw$/,
+        resourceQuery: /raw/,
         type: "asset/source",
       },
-      //       {
-      //   test: /\.css$/,
-      //   use: ["style-loader", "css-loader"],
-      //   exclude: /\.raw\./,
-      // },
+      {
+        test: /\.css$/,
+        oneOf: [
+          {
+            resourceQuery: /raw/,
+            type: "asset/source",
+          },
+          {
+            test: /\.css$/,
+            use: ["style-loader", "css-loader"],
+          },
+        ],
+      },
       // {
       //   test: /\.scss$/,
       //   use: ["style-loader", "css-loader", "sass-loader"],
