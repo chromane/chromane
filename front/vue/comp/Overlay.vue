@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import util from "@chromane/shared/ts/util";
-import icons from "@chromane/ts/vue_app/ts/icons";
+import mdi_close from "@mdi/svg/svg/close.svg?raw";
 import { ref, watch, nextTick, reactive } from "vue";
-import Form from "@common/vue/form/Form.vue";
-import Button from "@common/vue/comp/Button.vue";
+import Form from "@chromane/front/vue/form/Form.vue";
+import Button from "@chromane/front/vue/comp/Button.vue";
 
 let state = {
   resolver: null,
@@ -80,7 +80,7 @@ defineExpose({ open });
         ></h4>
         <div
           class="overlay-header__close"
-          v-html="icons.mdi_close"
+          v-html="mdi_close"
           @click="handle_click_icon_close"
         ></div>
       </div>

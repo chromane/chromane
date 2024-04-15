@@ -11,9 +11,9 @@ import mdi_eye from "@mdi/svg/svg/eye.svg?raw";
 import mdi_key from "@mdi/svg/svg/key-variant.svg?raw";
 import mdi_incognito from "@mdi/svg/svg/incognito.svg?raw";
 
-import Button from "@common/vue/comp/Button.vue";
-import CardError from "@common/vue/comp/CardError.vue";
-import Divider from "@common/vue/comp/Divider.vue";
+import Button from "@chromane/front/vue/comp/Button.vue";
+import CardError from "@chromane/front/vue/comp/CardError.vue";
+import Divider from "@chromane/front/vue/comp/Divider.vue";
 import { reactive } from "vue";
 
 let model = reactive({

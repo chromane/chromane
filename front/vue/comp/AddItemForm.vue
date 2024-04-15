@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Form from "@common/vue/form/Form.vue";
+import Form from "@chromane/front/vue/form/Form.vue";
 //
-import Button from "@common/vue/comp/Button.vue";
+import Button from "@chromane/front/vue/comp/Button.vue";
 
 import { reactive, onMounted } from "vue";
 

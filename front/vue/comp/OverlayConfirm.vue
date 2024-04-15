@@ -2,7 +2,7 @@
 import util from "@chromane/shared/ts/util";
 import icons from "@chromane/ts/vue_app/ts/icons";
 import { ref, watch, nextTick, reactive } from "vue";
-import Button from "@common/vue/comp/Button.vue";
+import Button from "@chromane/front/vue/comp/Button.vue";
 
 let state = {
   resolver: null,

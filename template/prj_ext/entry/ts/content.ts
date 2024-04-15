@@ -1,9 +1,8 @@
 import config from "@shared/config";
 
 import PrjContent from "../../ts/PrjContent";
-// import project_css from "@shared/slots/project.raw.css?raw";
 
-import project_css from "@shared/slots/project.raw.css?raw";
+import project_css from "@shared/slots/project.css?raw";
 import project_logo_svg from "@shared/slots/logo-white.svg?raw";
 
 let instance = new PrjContent(config, project_css, project_logo_svg);

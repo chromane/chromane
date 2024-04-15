@@ -131,6 +131,12 @@ class Internal {
     // });
     // this.admin = _admin;
   }
+  create_auth_client(redirect_uri) {
+    let client_id = _config.google_client_id;
+    let client_secret = _secrets.google_client_secret;
+    const oauth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uri);
+    return oauth2Client;
+  }
 }
 
 export default class BackendDefault {

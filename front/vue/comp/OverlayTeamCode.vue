@@ -5,8 +5,8 @@ import mdi_close from "@mdi/svg/svg/close.svg?raw";
 import type FirebaseIframe from "@chromane/ts/vue_app/ts/FirebaseIframe";
 
 import OverlayWrap from "@chromane/ts/vue_app/vue/comp/OverlayWrap.vue";
-import Button from "@common/vue/comp/Button.vue";
-import Form from "@common/vue/form/Form.vue";
+import Button from "@chromane/front/vue/comp/Button.vue";
+import Form from "@chromane/front/vue/form/Form.vue";
 
 import { VNodeRef, reactive, ref } from "vue";
 import { BackendCodes } from "../../../types/types";

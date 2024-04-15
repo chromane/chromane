@@ -4,9 +4,9 @@ const props = defineProps<{
   ctrl: any;
 }>();
 //
-import Button from "@common/vue/comp/Button.vue";
-import CardError from "@common/vue/comp/CardError.vue";
-import Divider from "@common/vue/comp/Divider.vue";
+import Button from "@chromane/front/vue/comp/Button.vue";
+import CardError from "@chromane/front/vue/comp/CardError.vue";
+import Divider from "@chromane/front/vue/comp/Divider.vue";
 import { reactive } from "vue";
 //
 import local_google from "@common/svg/google.svg?raw";

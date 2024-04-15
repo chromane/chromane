@@ -1,20 +1,12 @@
-let _window: any = window;
-_window.chrome = {
-  storage: {
-    local: {
-      set() {},
-      get() {
-        return {};
-      },
-    },
-  },
-};
+import chrome_mock from "@chromane/front/ts/chrome_mock";
+chrome_mock.init(window);
 
 import config from "@shared/config";
+config.mode = "sandbox";
 
 import PrjContent from "@root/prj_ext/ts/PrjContent";
 
-import project_css from "@shared/slots/project.raw.css?raw";
+import project_css from "@shared/slots/project.css?raw";
 import project_logo_svg from "@shared/slots/logo-white.svg?raw";
 
 let instance = new PrjContent(config, project_css, project_logo_svg);

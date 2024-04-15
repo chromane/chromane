@@ -8,6 +8,7 @@ let destinations = [
   path.resolve("../link_spotter/node_modules/chromane"),
   path.resolve("../swift_quote/node_modules/chromane"),
   path.resolve("../embank_ai/node_modules/chromane"),
+  path.resolve("../patch_tagger/node_modules/chromane"),
 ];
 
 console.log(source);

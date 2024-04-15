@@ -1,17 +1,10 @@
-let _window: any = window;
-_window.chrome = {
-  storage: {
-    local: {
-      set() {},
-      get() {
-        return {};
-      },
-    },
-  },
-};
+import chrome_mock from "@chromane/front/ts/chrome_mock";
+chrome_mock.init(window);
+
+import config from "@shared/config";
+config.mode = "sandbox";
 
 import proxies from "@chromane/shared/ts/proxies";
-import config from "@shared/config";
 
 import PrjExtensionIframe from "@root/prj_ext/ts/PrjExtensionIframe";
 let instance = new PrjExtensionIframe(config);

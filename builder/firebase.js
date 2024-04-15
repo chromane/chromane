@@ -28,14 +28,17 @@ async function move_backend_to_vm() {
 }
 // todo: pull the service account from github secrets
 // it should have permission to upload files to a public google cloud bucket
-let secrets = fs_extra.readJsonSync(path.resolve(dirnames.prj_root, ".secrets.json"));
-let config = fs_extra.readJsonSync(path.resolve(dirnames.prj_root, "prj_shared", "config.json"));
+
 //
-const storage = new Storage({
-  credentials: secrets.service_account,
-});
 // this deploys hosting only
 async function deploy_hosting_to_chromane_cdn(ext_name) {
+  //
+  let secrets = fs_extra.readJsonSync(path.resolve(dirnames.prj_root, ".secrets.json"));
+  let config = fs_extra.readJsonSync(path.resolve(dirnames.prj_root, "prj_shared", "config.json"));
+  const storage = new Storage({
+    credentials: secrets.service_account,
+  });
+  //
   console.log("upload start");
   let bucket = storage.bucket(config.gc_public_bucket_id);
   await bucket.setCorsConfiguration([
@@ -151,6 +154,13 @@ async function deploy_hosting_to_chromane_cdn(ext_name) {
 //
 export default {
   upload_package: async function (ext_name, dir_name, file_name) {
+    //
+    let secrets = fs_extra.readJsonSync(path.resolve(dirnames.prj_root, ".secrets.json"));
+    let config = fs_extra.readJsonSync(path.resolve(dirnames.prj_root, "prj_shared", "config.json"));
+    const storage = new Storage({
+      credentials: secrets.service_account,
+    });
+    //
     let bucket = storage.bucket(config.gc_public_bucket_id);
     console.log("upload start");
     // x/${ext_name}/p

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Button from "@common/vue/comp/Button.vue";
+import Button from "@chromane/front/vue/comp/Button.vue";
 import Actions from "@chromane/ts/vue_app/vue/comp/Actions.vue";
 
 import icons from "@chromane/ts/vue_app/ts/icons";
