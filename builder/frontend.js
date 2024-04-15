@@ -120,7 +120,7 @@ export default {
     server.printUrls();
   },
   build: async function () {
-    let versions = fs_extra.readJsonSync(dirnames.prj_root);
+    let versions = fs_extra.readJsonSync(dirnames.versions);
     let version_frontend = versions.frontend;
     //
     let config = get_config("prod", version_frontend);

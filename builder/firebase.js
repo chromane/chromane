@@ -12,6 +12,7 @@ import { VueLoaderPlugin } from "vue-loader";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import { globSync } from "glob";
 import dirnames from "./dirnames.js";
+import { Storage } from "@google-cloud/storage";
 //
 async function move_backend_to_vm() {
   //
@@ -27,18 +28,24 @@ async function move_backend_to_vm() {
 }
 // todo: pull the service account from github secrets
 // it should have permission to upload files to a public google cloud bucket
-// let service_account = {};
-// let chromane_app = admin.initializeApp({
-//   credential: admin_app.cert(service_account),
-//   storageBucket: "chromane_cdn",
-// });
-
+let secrets = fs_extra.readJsonSync(path.resolve(dirnames.prj_root, ".secrets.json"));
+let config = fs_extra.readJsonSync(path.resolve(dirnames.prj_root, "prj_shared", "config.json"));
+//
+const storage = new Storage({
+  credentials: secrets.service_account,
+});
 // this deploys hosting only
 async function deploy_hosting_to_chromane_cdn(ext_name) {
   console.log("upload start");
-  let bucket = chromane_app.storage().bucket();
+  let bucket = storage.bucket(config.gc_public_bucket_id);
+  await bucket.setCorsConfiguration([
+    {
+      maxAgeSeconds: 3600 * 2,
+      method: ["GET"],
+      origin: ["*"],
+    },
+  ]);
   // const storage = new storage.Storage();
-  chromane_app.storage;
   // Creates a transfer manager client
   let versions = fs_extra.readJsonSync(dirnames.versions);
   let promise_arr = [];
@@ -54,10 +61,10 @@ async function deploy_hosting_to_chromane_cdn(ext_name) {
       try {
         let destination = path_string.replace(prefix_to_remove, "");
         let promise = bucket.upload(path_string, {
-          destination: `x/${ext_name}/${versions.frontend}${destination}`,
-          // metadata: {
-          //   cacheControl: "public,max-age=31536000",
-          // },
+          destination: `x/${ext_name}/f/${versions.frontend}${destination}`,
+          metadata: {
+            cacheControl: "public,max-age=31536000",
+          },
         });
         promise_arr.push(promise);
       } catch (error) {
@@ -78,6 +85,9 @@ async function deploy_hosting_to_chromane_cdn(ext_name) {
         let destination = path_string.replace(prefix_to_remove, "");
         let promise = bucket.upload(path_string, {
           destination: `x/${ext_name}/v${destination}`,
+          metadata: {
+            cacheControl: "public,max-age=31536000",
+          },
         });
         promise_arr.push(promise);
       } catch (error) {
@@ -94,8 +104,8 @@ async function deploy_hosting_to_chromane_cdn(ext_name) {
     return file.name;
   });
   // console.log("remote_file_names", remote_file_names);
-  prefix_to_remove = path.resolve(dirnames.shared, "extension", ext_name, "static");
-  path_string_arr = globSync(path.resolve(dirnames.shared, "extension", ext_name, "static", "**/*"));
+  prefix_to_remove = path.resolve(dirnames.prj_root, "prj_static");
+  path_string_arr = globSync(path.resolve(dirnames.prj_root, "prj_static", "**/*"));
   console.log("path_string_arr", "static", path_string_arr);
   for (let path_string of path_string_arr) {
     // console.log(path_string);
@@ -104,12 +114,15 @@ async function deploy_hosting_to_chromane_cdn(ext_name) {
     } else {
       try {
         let relative_file_name = path_string.replace(prefix_to_remove, "");
-        let destination = `x/${ext_name}/static${relative_file_name}`;
+        let destination = `x/${ext_name}/s${relative_file_name}`;
         if (remote_file_names.includes(destination)) {
           console.log(`skip_because_exists: ${destination}`);
         } else {
           let promise = bucket.upload(path_string, {
             destination,
+            metadata: {
+              cacheControl: "public,max-age=31536000",
+            },
           });
           promise_arr.push(promise);
         }
@@ -138,7 +151,7 @@ async function deploy_hosting_to_chromane_cdn(ext_name) {
 //
 export default {
   upload_package: async function (ext_name, dir_name, file_name) {
-    let bucket = chromane_app.storage().bucket();
+    let bucket = storage.bucket(config.gc_public_bucket_id);
     console.log("upload start");
     // x/${ext_name}/p
     // x = extension

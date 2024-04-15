@@ -336,7 +336,7 @@ function zip_dir(input_dir, output_dir, output_file) {
   return new Promise((resolve) => {
     fs_extra.ensureDirSync(output_dir);
 
-    var output = file_system.createWriteStream(path.resolve(output_dir, output_file));
+    var output = fs.createWriteStream(path.resolve(output_dir, output_file));
     var archive = archiver("zip");
 
     output.on("close", function () {

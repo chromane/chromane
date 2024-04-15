@@ -58,13 +58,13 @@ export default class ExtensionIframe {
     //
     if (this.config.mode === "prod") {
       let ext_version = chrome.runtime.getManifest().version;
-      let response = await fetch(this.config.urls.hosting + "/v/" + ext_version + ".txt" + "?ts=" + Date.now())
+      let response = await fetch(this.config.urls_new.root_bucket + "/v/" + ext_version + ".txt" + "?ts=" + Date.now())
         .then((r: Response) => {
           return r.text();
         })
         .catch((e: Error) => {
           console.log("err", e);
-          return e.message;
+          return this.config.versions_default.frontend;
         });
       console.log("version_text", response);
       return response;

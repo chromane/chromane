@@ -18,4 +18,8 @@ if (arg_1 === "dev") {
   // builder.firebase.serve();
 } else if (arg_1 === "init") {
   builder.common.init();
+} else if (arg_1 === "build") {
+  builder.common.build_versions();
+  builder.frontend.build();
+  builder.extension.build();
 }

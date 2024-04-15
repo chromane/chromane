@@ -44,7 +44,7 @@ export default class ExtensionIframe {
     return text;
   }
   remove_iframe() {
-    document.querySelector("iframe").remove();
+    document.querySelector("iframe")?.remove();
   }
   inject_iframe(page_name, version_frontend) {
     let iframe = document.createElement("iframe");

@@ -60,6 +60,11 @@ export type ExtensionConfig = {
   urls: {
     hosting: string;
   };
+  urls_new: any;
+  versions_default: {
+    extension: "string";
+    frontend: "string";
+  };
   mode: "dev" | "prod" | "extension" | "test";
   ext_name: string;
   ext_id: string;
