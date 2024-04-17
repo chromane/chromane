@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Message from "../comp/Message.vue";
-let ill_ask = "http://localhost:2130/ill/ask.jpg";
+import Message from "@chromane/front/vue/comp/Message.vue";
+import ill_ask from "@shared/svg/ill/ask.svg?raw";
 </script>
 
 <template>

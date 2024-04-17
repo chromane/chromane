@@ -98,7 +98,7 @@ function get_config(mode, version_frontend) {
         // "@shared": dirnames.shared,
         { find: "@root", replacement: dirnames.prj_root },
         { find: "@common", replacement: dirnames.common },
-        { find: "@shared", replacement: dirnames.shared },
+        { find: "@shared", replacement: dirnames.prj_shared },
         { find: "@chromane", replacement: path.resolve(dirnames.prj_root, "node_modules", "chromane") },
         // { find: "@chromane", replacement: "chromane" },
         // "@chromane": path.resolve(dirnames.prj_root, "node_modules", "chromane"),

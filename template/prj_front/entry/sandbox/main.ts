@@ -15,4 +15,3 @@ import proxies from "@chromane/shared/ts/proxies";
 
 proxies.create_window_api(config.ext_id, instance, "*");
 instance.init(config.urls.extension_iframe_mock);
-instance.popup.show();

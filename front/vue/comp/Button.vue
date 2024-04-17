@@ -152,6 +152,7 @@ function button_click() {
   width: 100%;
   height: 100%;
   z-index: 1;
+  transition: filter 0.2s ease;
 }
 .button-content .button-bg {
   background: var(--gradient-primary);

@@ -339,13 +339,13 @@ export default class Popup {
     // this.rect_set_apply(storage.popup.rect);
     //
     this.storage = await this.storage_get();
+    this.rect = this.storage.popup.rect;
     //
     let style = util.html_to_element(`<style class = 'chromane-style' >${popup_css}${this.project_css}</style>`);
     // document.documentElement.prepend(style);
     //
     this.overlay = util.html_to_element(`<div class = "chromane-overlay chromane-not-active" ></div>`) as HTMLElement;
     // document.documentElement.prepend(this.overlay);
-
     //
     this.container = util.html_to_element(popup_html);
     this.set_container_mode(ContainerMode.popup);
@@ -857,7 +857,6 @@ export default class Popup {
       }
       storage.popup = default_storage_popup;
     }
-
     console.log("storage_get", storage);
     return storage;
   }

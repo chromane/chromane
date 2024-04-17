@@ -9,6 +9,8 @@ let destinations = [
   path.resolve("../swift_quote/node_modules/chromane"),
   path.resolve("../embank_ai/node_modules/chromane"),
   path.resolve("../patch_tagger/node_modules/chromane"),
+  path.resolve("../icebreaker/node_modules/chromane"),
+  path.resolve("../busmask/node_modules/chromane"),
 ];
 
 console.log(source);

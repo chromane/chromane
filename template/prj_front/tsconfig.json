@@ -5,8 +5,9 @@
     "allowSyntheticDefaultImports": true,
     "allowArbitraryExtensions": true,
     "paths": {
-      "@chromane/*": ["../node_modules/chromane/*"],
-      "@shared/*": ["../prj_shared/*"]
+      "@root/*": ["../*"],
+      "@shared/*": ["../prj_shared/*"],
+      "@chromane/*": ["../node_modules/chromane/*"]
     },
     "target": "es2021",
     "strict": true,

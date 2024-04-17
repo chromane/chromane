@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import Message from "../comp/Message.vue";
-let ill_ask = "http://localhost:2130/ill/ask.jpg";
+import Message from "@chromane/front/vue/comp/Message.vue";
+import ill_ask from "@shared/svg/ill/ask.svg?raw";
+import ext_ctrl from "@root/prj_front/vue/ctrl";
 </script>
 
 <template>
@@ -9,15 +10,17 @@ let ill_ask = "http://localhost:2130/ill/ask.jpg";
       <Message
         :model="{
           ill: ill_ask,
-          title: 'Additional permissions required',
-          text: 'This tool needs the permission to read and change data on a specific website in order to be enabled.',
-          permissions_button: {
-            permissions: {
-              origins: ['https://www.realestate.com.au/*'],
-            },
-            text: 'Grant permissions',
+          title: 'Page reload required',
+          text: 'Please reload this page to activate the tool. You can click the button below to do that.',
+          button: {
+            text: 'Reload',
           },
         }"
+        v-on:button_click="
+          () => {
+            ext_ctrl.proxy_extension_iframe.tabs_reload();
+          }
+        "
       ></Message>
     </div>
   </div>

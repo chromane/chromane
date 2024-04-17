@@ -58,7 +58,6 @@ function get_webpack_config(mode) {
   }
   webpack_data.resolve = {
     extensions: [".ts"],
-    //  [".ts", ".tsx", ".js", ".vue", ".raw.html", ".raw.css", ".css", ".css?raw", ".html?raw"],
     alias: {
       "@chromane": path.resolve(dirnames.prj_root, "node_modules", "chromane"),
       "@shared": dirnames.prj_shared,
@@ -253,7 +252,7 @@ async function create_dev_server() {
     // don't open http://localhost:2130/ automatically on dev server start
     open: false,
     static: {
-      directory: dirnames.temp_extension_webpack + "/",
+      directory: path.resolve(dirnames.prj_root, "prj_static"),
     },
   };
 

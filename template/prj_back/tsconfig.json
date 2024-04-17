@@ -3,8 +3,9 @@
     "module": "commonjs",
     "baseUrl": "./",
     "paths": {
-      "@common/*": ["../common/*"],
-      "@shared/*": ["../shared/*"]
+      "@root/*": ["../*"],
+      "@shared/*": ["../prj_shared/*"],
+      "@chromane/*": ["../node_modules/chromane/*"]
     },
     "noImplicitReturns": true,
     "noUnusedLocals": false,

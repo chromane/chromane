@@ -70,7 +70,7 @@ function backend_get_config(mode) {
   let config_json = fs_extra.readJsonSync(dirnames.config);
   let config = {
     resolve: {
-      extensions: [".ts", ".tsx", ".js", ".vue", ".raw.html", ".raw.css", ".css"],
+      extensions: [".ts"],
       alias: {
         "@chromane": path.resolve(dirnames.prj_root, "node_modules", "chromane"),
         "@shared": dirnames.prj_shared,
