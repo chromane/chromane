@@ -282,3 +282,8 @@ export function compare(obj_1, obj_2) {
 export function pad(n: number) {
   return n < 10 ? `0${n}` : `${n}`;
 }
+
+export function html_to_doc(html) {
+  let parser = new DOMParser();
+  return parser.parseFromString(html, "text/html");
+}

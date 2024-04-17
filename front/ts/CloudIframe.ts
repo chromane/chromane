@@ -57,7 +57,9 @@ export default class CloudIframe {
     this.ext_store.active_page_comp_name = item.comp_name;
   }
   arrow_button_click() {}
-  close_button_click() {}
+  close_button_click() {
+    this.proxy_content.popup_hide();
+  }
   blocking_inc() {
     this.ext_store.ui_number_of_blocking_operations += 1;
   }

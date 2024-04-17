@@ -29,7 +29,7 @@ let urls = {
   // for testing extension iframes in prj_frontend localhost
   test: {
     backend_root_old: `http://localhost:5001/${fb_id}/us-central1/main`,
-    backend_root: `http://localhost:8080/main`,
+    backend_root: `http://localhost:8080`,
     //
     onboarding: `chrome-extension://${extension_id}/pages/onboarding/index.html`,
     offboarding: `https://super-reply-dbaf0.web.app/#/uninstall`,
@@ -51,7 +51,7 @@ let urls = {
   // for installing extension locally
   dev: {
     backend_root_old: `http://localhost:5001/${fb_id}/us-central1/main`,
-    backend_root: `http://localhost:8080/main`,
+    backend_root: `http://localhost:8080`,
     //
     onboarding: `chrome-extension://${extension_id}/pages/onboarding/index.html`,
     offboarding: `https://super-reply-dbaf0.web.app/#/uninstall`,

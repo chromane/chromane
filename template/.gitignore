@@ -1,0 +1,12 @@
+node_modules
+.secrets.json
+
+dist/
+package-lock.json
+
+/**/temp_backend
+/**/temp_extension_webpack
+/**/temp_extension_install
+/**/temp_extension_build
+/**/temp_frontend_webpack
+/**/temp_frontend_build

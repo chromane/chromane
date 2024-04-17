@@ -93,8 +93,10 @@ export default function init_backend(backend: BackendDefault, mode) {
                     response.writeHead(302, {
                       Location: result.location,
                     });
+                    console.log("end");
                     response.end();
                   } else {
+                    console.log("end");
                     response.statusCode = 200;
                     response.write(encode_json(result));
                     response.end();

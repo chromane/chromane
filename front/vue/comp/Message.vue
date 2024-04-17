@@ -20,10 +20,10 @@ const emit = defineEmits<{
     }"
   >
     <div class="chromane_message-ill">
-      <div
+      <img
         class="svg"
-        v-html="$props.model.ill"
-      ></div>
+        :src="props.model.ill"
+      ></img>
     </div>
     <div class="chromane_message-details">
       <div
