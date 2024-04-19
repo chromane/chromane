@@ -13,6 +13,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import { globSync } from "glob";
 import dirnames from "./dirnames.js";
 import { Storage } from "@google-cloud/storage";
+import { auth, GoogleAuth } from "google-auth-library";
 //
 async function move_backend_to_vm() {
   //
@@ -64,7 +65,7 @@ async function deploy_hosting_to_chromane_cdn(ext_name) {
       try {
         let destination = path_string.replace(prefix_to_remove, "");
         let promise = bucket.upload(path_string, {
-          destination: `x/${ext_name}/f/${versions.frontend}${destination}`,
+          destination: `f/${versions.frontend}${destination}`,
           metadata: {
             cacheControl: "public,max-age=31536000",
           },
@@ -87,7 +88,7 @@ async function deploy_hosting_to_chromane_cdn(ext_name) {
       try {
         let destination = path_string.replace(prefix_to_remove, "");
         let promise = bucket.upload(path_string, {
-          destination: `x/${ext_name}/v${destination}`,
+          destination: `v${destination}`,
           metadata: {
             cacheControl: "public,max-age=31536000",
           },
@@ -101,7 +102,7 @@ async function deploy_hosting_to_chromane_cdn(ext_name) {
   // Add static files
   // only if they don't exist already
   let [remote_static_files] = await bucket.getFiles({
-    prefix: `x/${ext_name}/static/`,
+    prefix: `static/`,
   });
   let remote_file_names = remote_static_files.map((file) => {
     return file.name;
@@ -117,7 +118,7 @@ async function deploy_hosting_to_chromane_cdn(ext_name) {
     } else {
       try {
         let relative_file_name = path_string.replace(prefix_to_remove, "");
-        let destination = `x/${ext_name}/s${relative_file_name}`;
+        let destination = `s${relative_file_name}`;
         if (remote_file_names.includes(destination)) {
           console.log(`skip_because_exists: ${destination}`);
         } else {
@@ -163,14 +164,14 @@ export default {
     //
     let bucket = storage.bucket(config.gc_public_bucket_id);
     console.log("upload start");
-    // x/${ext_name}/p
+    // p
     // x = extension
     // p = package
     // v = versions
     await bucket.upload(`${dir_name}/${file_name}`, {
-      destination: `x/${ext_name}/p/${file_name}`,
+      destination: `p/${file_name}`,
     });
-    console.log(`https://cdn.chromane.com/x/${ext_name}/p/${file_name}`);
+    console.log(`https://storage.googleapis.com/${config.gc_public_bucket_id}/p/${file_name}`);
     console.log("upload end");
   },
   serve: async function () {
@@ -184,6 +185,77 @@ export default {
   },
   deploy_all: async function () {
     move_backend_to_vm();
+  },
+  deploy: async function () {
+    let secrets = fs_extra.readJsonSync(path.resolve(dirnames.prj_root, ".secrets.json"));
+    let config = fs_extra.readJsonSync(path.resolve(dirnames.prj_root, "prj_shared", "config.json"));
+    let gc_id = config.gc_id;
+    //
+    let auth = new GoogleAuth({
+      credentials: secrets.google_service_account,
+      scopes: ["https://www.googleapis.com/auth/cloud-platform"],
+      // scopes: ["*"],
+    });
+    let token = await auth.getAccessToken();
+    let service_name = `projects/${config.gc_id}/locations/${"us-central1"}/services/${"back"}`;
+    let url = `https://run.googleapis.com/v2/${service_name}`;
+    console.log("token", token);
+    //
+    // STEP 1
+    // sudo docker build --output ./ --network host -f dockerfile ./ -t back:1.0
+    // STEP 2
+    // sudo docker images -a
+    // STEP 3
+    // sudo docker tag ${docker_image_id} us-central1-docker.pkg.dev/${gc_id}/back/image1:tag1
+    //
+    //
+    // STEP 2
+    // execSync(
+    //   // `docker login -u '${secrets.google_service_account.client_email}' -p '${token}' https://us-central1-docker.pkg.dev/${gc_id}/back/image1`,
+    //   // `docker login -u ${secrets.google_service_account.client_email} -p ${token} https://us-central1-docker.pkg.dev/${gc_id}/back/image1`,
+    //   `sudo docker login -u _json_key_base64 -p ${btoa(
+    //     JSON.stringify(secrets.google_service_account)
+    //   )} https://us-central1-docker.pkg.dev/${gc_id}/back/image1`,
+    //   {
+    //     // execSync(`docker login -u _user -p ${token}`, {
+    //     cwd: path.resolve(dirnames.prj_root, "temp_backend"),
+    //     stdio: "inherit",
+    //     shell: true,
+    //   }
+    // );
+    //
+    // STEP 4
+    // execSync(
+    //   // `docker login -u '${secrets.google_service_account.client_email}' -p '${token}' https://us-central1-docker.pkg.dev/${gc_id}/back/image1`,
+    //   // `docker login -u ${secrets.google_service_account.client_email} -p ${token} https://us-central1-docker.pkg.dev/${gc_id}/back/image1`,
+    //   `sudo docker tag 699d8457ef6a us-central1-docker.pkg.dev/${gc_id}/back/image1:tag1`,
+    //   {
+    //     // execSync(`docker login -u _user -p ${token}`, {
+    //     cwd: path.resolve(dirnames.prj_root, "temp_backend"),
+    //     stdio: "inherit",
+    //     shell: true,
+    //   }
+    // );
+    //
+    // STEP 4
+    let r = await fetch(url, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        // template: { containers: [{ image: "us-docker.pkg.dev/cloudrun/container/hello:latest" }] },
+        template: { containers: [{ image: `us-central1-docker.pkg.dev/${gc_id}/back/image1:tag5` }] },
+      }),
+    });
+    // let text = await r.text();
+    // console.log("text", text);
+    // const runClient = new cloud_run.v2.ServicesClient();
+    // await runClient.initialize({});
+    // let result = await runClient.updateService({
+    //   service: {
+    //     name: "back",
+    //   },
+    // });
+    // console.log("result", result);
   },
 };
 //

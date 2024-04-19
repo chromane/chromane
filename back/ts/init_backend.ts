@@ -2,7 +2,7 @@ import type BackendDefault from "./BackendDefault";
 import { BackendCodes, BackendResponse } from "@chromane/shared/types/types";
 import http from "http";
 import util from "@chromane/shared/ts/util";
-import { decode_json, url_to_params, encode_json } from "@chromane/shared/ts/helpers";
+import { decode_json, url_to_params, encode_json, is_array } from "@chromane/shared/ts/helpers";
 
 export default function init_backend(backend: BackendDefault, mode) {
   // create server
@@ -79,7 +79,7 @@ export default function init_backend(backend: BackendDefault, mode) {
                 //
                 request_json &&
                 request_json.data &&
-                util.is_array(request_json.data)
+                is_array(request_json.data)
               ) {
                 args = request_json.data;
               } else {

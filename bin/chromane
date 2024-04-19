@@ -20,6 +20,11 @@ if (arg_1 === "dev") {
   builder.common.init();
 } else if (arg_1 === "build") {
   builder.common.build_versions();
+  builder.backend.build();
   builder.frontend.build();
   builder.extension.build();
+} else if (arg_1 === "test") {
+  // builder.firebase.test();
+} else if (arg_1 === "deploy") {
+  builder.firebase.deploy();
 }

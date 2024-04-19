@@ -1,3 +1,31 @@
+export function is_string(obj) {
+  return typeof obj === "string";
+}
+export function is_number(obj) {
+  return typeof obj === "number";
+}
+export function is_nan(obj) {
+  return typeof obj === "number" && isNaN(obj);
+}
+export function is_undefined(value) {
+  return typeof value === "undefined";
+}
+export function is_null(obj) {
+  return obj === null;
+}
+export function is_function(obj) {
+  return typeof obj === "function";
+}
+export function is_array(obj) {
+  return Array.isArray(obj);
+}
+export function is_bool(obj) {
+  return typeof obj === "boolean";
+}
+export function is_simple_object(obj) {
+  return Object.prototype === Object.getPrototypeOf(obj);
+}
+
 export async function wait(time: number) {
   return new Promise((resolve: Function) => {
     setTimeout(resolve, time);
@@ -187,6 +215,27 @@ export function encode_json(json: object): string {
   return JSON.stringify(json);
 }
 
+export function html_entity_decode(text: string) {
+  var entities = [
+    ["amp", "&"],
+    ["apos", "'"],
+    ["#x27", "'"],
+    ["#x2F", "/"],
+    ["#39", "'"],
+    ["#47", "/"],
+    ["lt", "<"],
+    ["gt", ">"],
+    ["nbsp", " "],
+    ["quot", '"'],
+  ];
+
+  for (var i = 0, max = entities.length; i < max; ++i) {
+    text = text.replace(new RegExp("&" + entities[i][0] + ";", "g"), entities[i][1]);
+  }
+
+  return text;
+}
+
 export function get_google_auth_url(google_cloud_oauth_client_id, redirect_uri, scopes, state_obj) {
   let url_root = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount`;
   // state will be passed to the chrome-extnesion/id/redirect page
@@ -286,4 +335,63 @@ export function pad(n: number) {
 export function html_to_doc(html) {
   let parser = new DOMParser();
   return parser.parseFromString(html, "text/html");
+}
+
+export function clone<T>(obj: T): T | null {
+  try {
+    return JSON.parse(JSON.stringify(obj)) as T;
+  } catch (e) {
+    return null;
+  }
+}
+
+export function find_objects_with_props(root_obj: any, props_arr: Array<string>) {
+  let result_arr: Array<any> = [];
+  let object_arr = [root_obj];
+  loop_1: for (let i = 0; i < object_arr.length; i++) {
+    let current_obj = object_arr[i];
+    // console.log("current_obj", current_obj);
+    if (
+      //
+      is_null(current_obj) === false &&
+      (is_simple_object(current_obj) || is_array(current_obj)) === true
+    ) {
+      // Check if the current object has all the required properties
+      // that we are looking for
+      let all_props_found = true;
+      loop_2: for (let prop of props_arr) {
+        if (current_obj.hasOwnProperty(prop) === false) {
+          all_props_found = false;
+          break loop_2;
+        }
+      }
+      if (all_props_found) {
+        result_arr.push(current_obj);
+      } else {
+        // If this object is not what we are looking for -
+        // Add all of it's children for futher review
+        for (let key in current_obj) {
+          // console.log("key", key);
+          object_arr.push(current_obj[key]);
+        }
+      }
+    }
+  }
+  return result_arr;
+}
+
+export function arr_last(arr: Array<any>) {
+  return arr[arr.length - 1];
+}
+
+export async function wait_for_element<T extends HTMLElement>(selector: string): Promise<T | null> {
+  for (let i = 0; i < 1000; i++) {
+    let element = document.querySelector<T>(selector);
+    if (element) {
+      return element;
+    } else {
+      await wait(100);
+    }
+  }
+  return null;
 }

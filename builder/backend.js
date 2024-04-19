@@ -130,6 +130,19 @@ async function back_build() {
   let config = backend_get_config("prod");
   webpack(config, compiler_callback);
 }
+function move_static_back_files() {
+  console.log("MOVED PACKAGE");
+  fs_extra.copySync(
+    //
+    path.resolve(dirnames.prj_backend, "package.json"),
+    path.resolve(dirnames.root, "temp_back", "package.json")
+  );
+  fs_extra.copySync(
+    //
+    path.resolve(dirnames.prj_backend, "dockerfile"),
+    path.resolve(dirnames.root, "temp_back", "dockerfile")
+  );
+}
 import common from "./common.js";
 //
 export default {
@@ -149,12 +162,7 @@ export default {
         }
       );
       chokidar_watcher.on("all", async (event, event_path) => {
-        console.log("MOVED PACKAGE");
-        fs_extra.copySync(
-          //
-          path.resolve(dirnames.prj_backend, "package.json"),
-          path.resolve(dirnames.root, "temp_back", "package.json")
-        );
+        move_static_back_files();
       });
       console.log("done");
     } else {
@@ -172,6 +180,7 @@ export default {
     } else {
       console.log("prj_backend_not_found");
     }
+    move_static_back_files();
   },
   run: async function () {
     let process = spawn(`node`, `index.js`.split(" "), {

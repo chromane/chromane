@@ -27,6 +27,9 @@ export default {
           },
         },
       },
+      runtime: {
+        onMessage: (callback) => {},
+      },
     };
   },
 };

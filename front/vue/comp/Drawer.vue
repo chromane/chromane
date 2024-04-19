@@ -164,6 +164,7 @@ defineExpose({
   height: 20px;
   padding: 10px 0px 10px 24px;
   cursor: pointer;
+  user-select: none;
 }
 
 .drawer_item.hidden {
@@ -253,16 +254,6 @@ img.drawer_item_icon {
   padding-left: 24px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   font-size: 16px;
-}
-
-.drawer_item {
-  box-sizing: content-box;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  height: 20px;
-  padding: 10px 0px 10px 24px;
-  cursor: pointer;
 }
 
 .drawer_item.visible {

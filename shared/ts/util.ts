@@ -340,18 +340,6 @@ class Util {
     }
   }
 
-  async wait_for_element(selector: string): Promise<HTMLElement | null> {
-    for (let i = 0; i < 1000; i++) {
-      let element = document.querySelector<HTMLElement>(selector);
-      if (element) {
-        return element;
-      } else {
-        await this.wait(100);
-      }
-    }
-    return null;
-  }
-
   async wait_for_element_with_text(selector, text) {
     text = text.trim().toLowerCase();
     for (let i = 0; i < 1000; i++) {
@@ -704,146 +692,118 @@ class Util {
       };
     }
   }
-
-  is_string(obj) {
-    return typeof obj === "string";
-  }
-  is_number(obj) {
-    return typeof obj === "number";
-  }
-  is_nan(obj) {
-    return typeof obj === "number" && isNaN(obj);
-  }
-  is_undefined(value) {
-    return typeof value === "undefined";
-  }
-  is_null(obj) {
-    return obj === null;
-  }
-  is_function(obj) {
-    return typeof obj === "function";
-  }
-  is_array(obj) {
-    return Array.isArray(obj);
-  }
-  is_bool(obj) {
-    return typeof obj === "boolean";
-  }
-  is_simple_object(obj) {
-    return Object.prototype === Object.getPrototypeOf(obj);
-  }
   // remove functiosn from an object to make it passable
   // via windows.postMessage
-  simplify(obj, seen_objects?) {
-    try {
-      //
-      if (!seen_objects) {
-        seen_objects = new Set();
-      }
-      //
-      if (this.is_bool(obj)) {
-        return obj;
-      } else if (this.is_nan(obj)) {
-        return "NaN";
-      } else if (this.is_null(obj)) {
-        return null;
-      } else if (this.is_undefined(obj)) {
-        return undefined;
-      } else if (this.is_number(obj)) {
-        return obj;
-      } else if (this.is_string(obj)) {
-        return obj;
-      } else if (this.is_array(obj)) {
-        if (seen_objects.has(obj) === false) {
-          seen_objects.add(obj);
-        }
-        let new_obj = [] as any;
-        for (let i = 0; i < obj.length; i++) {
-          if (seen_objects.has(obj[i])) {
-            new_obj[i] = "seen_object";
-          } else {
-            new_obj[i] = this.simplify(obj[i], seen_objects);
-          }
-        }
-        return new_obj;
-      } else if (this.is_simple_object(obj)) {
-        if (seen_objects.has(obj) === false) {
-          seen_objects.add(obj);
-        }
-        let new_obj = {};
-        for (var key in obj) {
-          if (seen_objects.has(obj[key])) {
-            new_obj[key] = "seen_object";
-          } else {
-            new_obj[key] = this.simplify(obj[key], seen_objects);
-          }
-        }
-        return new_obj;
-      } else {
-        return "complex_object";
-      }
-      //
-    } catch (e) {
-      let error = e as any;
-      return {
-        result: "obfuscation_error",
-        message: error.message,
-        stack: error.stack,
-      };
-    }
-  }
-  obfuscate(obj, seen_objects?) {
-    try {
-      //
-      if (!seen_objects) {
-        seen_objects = new Set();
-      }
-      //
-      if (seen_objects.has(obj)) {
-        return "seen_object";
-      } else {
-        seen_objects.add(obj);
-      }
-      //
-      if (this.is_bool(obj)) {
-        return "bool";
-      } else if (this.is_nan(obj)) {
-        return "nan";
-      } else if (this.is_null(obj)) {
-        return "null";
-      } else if (this.is_undefined(obj)) {
-        return "undefined";
-      } else if (this.is_number(obj)) {
-        return obj;
-        // return "number";
-      } else if (this.is_string(obj)) {
-        return "string " + obj.length;
-        return "string";
-      } else if (this.is_array(obj)) {
-        let new_obj = [] as any;
-        for (let i = 0; i < obj.length; i++) {
-          new_obj[i] = this.obfuscate(obj[i]);
-        }
-        return new_obj;
-      } else if (this.is_simple_object(obj)) {
-        let new_obj = {};
-        for (var key in obj) {
-          new_obj[key] = this.obfuscate(obj[key]);
-        }
-        return new_obj;
-      } else {
-        return "complex_object";
-      }
-      //
-    } catch (e) {
-      let error = e as any;
-      return {
-        result: "obfuscation_error",
-        message: error.message,
-        stack: error.stack,
-      };
-    }
-  }
+  // simplify(obj, seen_objects?) {
+  //   try {
+  //     //
+  //     if (!seen_objects) {
+  //       seen_objects = new Set();
+  //     }
+  //     //
+  //     if (this.is_bool(obj)) {
+  //       return obj;
+  //     } else if (this.is_nan(obj)) {
+  //       return "NaN";
+  //     } else if (this.is_null(obj)) {
+  //       return null;
+  //     } else if (this.is_undefined(obj)) {
+  //       return undefined;
+  //     } else if (this.is_number(obj)) {
+  //       return obj;
+  //     } else if (this.is_string(obj)) {
+  //       return obj;
+  //     } else if (this.is_array(obj)) {
+  //       if (seen_objects.has(obj) === false) {
+  //         seen_objects.add(obj);
+  //       }
+  //       let new_obj = [] as any;
+  //       for (let i = 0; i < obj.length; i++) {
+  //         if (seen_objects.has(obj[i])) {
+  //           new_obj[i] = "seen_object";
+  //         } else {
+  //           new_obj[i] = this.simplify(obj[i], seen_objects);
+  //         }
+  //       }
+  //       return new_obj;
+  //     } else if (this.is_simple_object(obj)) {
+  //       if (seen_objects.has(obj) === false) {
+  //         seen_objects.add(obj);
+  //       }
+  //       let new_obj = {};
+  //       for (var key in obj) {
+  //         if (seen_objects.has(obj[key])) {
+  //           new_obj[key] = "seen_object";
+  //         } else {
+  //           new_obj[key] = this.simplify(obj[key], seen_objects);
+  //         }
+  //       }
+  //       return new_obj;
+  //     } else {
+  //       return "complex_object";
+  //     }
+  //     //
+  //   } catch (e) {
+  //     let error = e as any;
+  //     return {
+  //       result: "obfuscation_error",
+  //       message: error.message,
+  //       stack: error.stack,
+  //     };
+  //   }
+  // }
+  // obfuscate(obj, seen_objects?) {
+  //   try {
+  //     //
+  //     if (!seen_objects) {
+  //       seen_objects = new Set();
+  //     }
+  //     //
+  //     if (seen_objects.has(obj)) {
+  //       return "seen_object";
+  //     } else {
+  //       seen_objects.add(obj);
+  //     }
+  //     //
+  //     if (this.is_bool(obj)) {
+  //       return "bool";
+  //     } else if (this.is_nan(obj)) {
+  //       return "nan";
+  //     } else if (this.is_null(obj)) {
+  //       return "null";
+  //     } else if (this.is_undefined(obj)) {
+  //       return "undefined";
+  //     } else if (this.is_number(obj)) {
+  //       return obj;
+  //       // return "number";
+  //     } else if (this.is_string(obj)) {
+  //       return "string " + obj.length;
+  //       return "string";
+  //     } else if (this.is_array(obj)) {
+  //       let new_obj = [] as any;
+  //       for (let i = 0; i < obj.length; i++) {
+  //         new_obj[i] = this.obfuscate(obj[i]);
+  //       }
+  //       return new_obj;
+  //     } else if (this.is_simple_object(obj)) {
+  //       let new_obj = {};
+  //       for (var key in obj) {
+  //         new_obj[key] = this.obfuscate(obj[key]);
+  //       }
+  //       return new_obj;
+  //     } else {
+  //       return "complex_object";
+  //     }
+  //     //
+  //   } catch (e) {
+  //     let error = e as any;
+  //     return {
+  //       result: "obfuscation_error",
+  //       message: error.message,
+  //       stack: error.stack,
+  //     };
+  //   }
+  // }
   //
   // on_storage_change(callback) {
   //   if (config.mode === "dev" || config.mode === "prod") {

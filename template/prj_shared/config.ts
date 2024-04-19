@@ -2,7 +2,6 @@
 let mode = CHROMANE_CONFIG_MODE as "prod" | "dev" | "test";
 // @ts-ignore
 // let config_json = CHROMANE_CONFIG_JSON;
-
 import config_json from "./config.json";
 let { fb_id, extension_id } = config_json;
 //
@@ -23,7 +22,6 @@ if (mode === "prod") {
 } else {
   var hosting_root = "http://localhost:2140";
 }
-
 //
 let urls = {
   // for testing extension iframes in prj_frontend localhost
@@ -76,7 +74,7 @@ let urls = {
   // packages in the wild
   prod: {
     backend_root_old: `https://us-central1-${fb_id}.cloudfunctions.net/main`,
-    backend_root: `https://back.chromane.com/main`,
+    backend_root: `https://back-tudksn74kq-uc.a.run.app`,
     //
     onboarding: `chrome-extension://${extension_id}/pages/onboarding/index.html`,
     offboarding: `https://super-reply-dbaf0.web.app/#/uninstall`,

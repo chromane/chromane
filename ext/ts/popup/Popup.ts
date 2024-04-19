@@ -990,16 +990,16 @@ export default class Popup {
       new_status = PopupStatus.draggable_overlay;
       draggable_overlay_rect = this.get_popup_rect_big();
     } else if (status === PopupStatus.draggable_overlay) {
-      // new_status = PopupStatus.draggable_overlay;
-      // if (info && info.width && info.height) {
-      //   let width = info.width;
-      //   let height = info.height;
-      //   let top = (window.innerHeight - height) / 2;
-      //   let left = (window.innerWidth - width) / 2;
-      //   draggable_overlay_rect = { top, left, width, height };
-      // } else {
-      //   draggable_overlay_rect = this.get_rect_sidebar_top();
-      // }
+      new_status = PopupStatus.draggable_overlay;
+      if (info && info.width && info.height) {
+        let width = info.width;
+        let height = info.height;
+        let top = (window.innerHeight - height) / 2;
+        let left = (window.innerWidth - width) / 2;
+        draggable_overlay_rect = { top, left, width, height };
+      } else {
+        draggable_overlay_rect = this.get_rect_sidebar_top();
+      }
     } else {
       new_status = status as PopupStatus;
     }

@@ -61,6 +61,7 @@ function get_webpack_config(mode) {
     alias: {
       "@chromane": path.resolve(dirnames.prj_root, "node_modules", "chromane"),
       "@shared": dirnames.prj_shared,
+      "@root": dirnames.prj_root,
     },
   };
   webpack_data.module = {
