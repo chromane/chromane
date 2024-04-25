@@ -192,14 +192,6 @@ class Util {
     });
   }
 
-  async storage_set(keys: { [key: string]: any }): Promise<void> {
-    return chrome.storage.local.set(keys);
-  }
-
-  async storage_get<T>(keys: string[] | null): Promise<T | null> {
-    return chrome.storage.local.get(keys) as T | null;
-  }
-
   async storage_clear(): Promise<void> {
     if (!chrome.storage) throw new Error("chrome.storage is not defined");
     return chrome.storage.local.clear();

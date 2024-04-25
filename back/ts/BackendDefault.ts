@@ -84,6 +84,12 @@ class Common {
       body: encode_json(body),
     });
   }
+  async redirect(query_params) {
+    return {
+      _redirect: true,
+      location: `chrome-extension://${_config.extension_id}/pages/redirect/index.html?state=${query_params.state}`,
+    };
+  }
 }
 
 class Auth {

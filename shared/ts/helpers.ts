@@ -52,6 +52,14 @@ export function encode_jwt(...parts: Array<any>) {
   return jwt.join(".");
 }
 
+export function encode_url_state(json: any) {
+  return encodeURIComponent(btoa(encode_json(json)));
+}
+
+export function decode_url_state(state: string) {
+  return decode_json(atob(decodeURIComponent(state)));
+}
+
 // AJAX Overrides
 export type OverrideDataXHR = {
   name: string;

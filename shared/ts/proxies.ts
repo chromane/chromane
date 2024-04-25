@@ -9,6 +9,7 @@ class Proxies {
   iwn_windows = {};
   iwn_listener_was_added_flag = false;
   resolvers: any = {};
+  //
   create_proxy_from_iframe_name<TargetType>(extension_id_param, iframe_name: string) {
     this.iwn_wait_for_first_iframe_registration_promise_hash[iframe_name] = new Promise((r) => {
       this.iwn_first_iframe_registration_resolver_hash[iframe_name] = r;
@@ -107,11 +108,17 @@ class Proxies {
           meta.extension_id === extension_id &&
           instance[name]
         ) {
-          try {
-            var result: any = await instance[name].apply(instance, data);
-          } catch (e) {
-            console.log("proxy_error", e);
-            var result: any = null;
+          var result: any = null;
+          if (name === "ping") {
+            console.log("PING", window);
+            result = "pong";
+          } else {
+            try {
+              result = await instance[name].apply(instance, data);
+            } catch (e) {
+              console.log("proxy_error", e);
+              result = null;
+            }
           }
           if (event.source) {
             let source = event.source as Window;

@@ -14,6 +14,7 @@ import { globSync } from "glob";
 import dirnames from "./dirnames.js";
 import { Storage } from "@google-cloud/storage";
 import { auth, GoogleAuth } from "google-auth-library";
+import { Server } from "net";
 //
 async function move_backend_to_vm() {
   //
@@ -196,10 +197,16 @@ export default {
       scopes: ["https://www.googleapis.com/auth/cloud-platform"],
       // scopes: ["*"],
     });
-    let token = await auth.getAccessToken();
-    let service_name = `projects/${config.gc_id}/locations/${"us-central1"}/services/${"back"}`;
-    let url = `https://run.googleapis.com/v2/${service_name}`;
-    console.log("token", token);
+    // let token = await auth.getAccessToken();
+    // let service_name = `projects/${config.gc_id}/locations/${"us-central1"}/services/${"back"}`;
+    // let url = `https://run.googleapis.com/v2/${service_name}`;
+    // console.log("token", token);
+    // unix:///var/run/docker.sock
+    let r = await fetch("http://10.10.10.2:2375/containers/json", {
+      method: "GET",
+    });
+    let text = await r.text();
+    console.log("text", text);
     //
     // STEP 1
     // sudo docker build --output ./ --network host -f dockerfile ./ -t back:1.0
@@ -238,14 +245,14 @@ export default {
     // );
     //
     // STEP 4
-    let r = await fetch(url, {
-      method: "PATCH",
-      headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify({
-        // template: { containers: [{ image: "us-docker.pkg.dev/cloudrun/container/hello:latest" }] },
-        template: { containers: [{ image: `us-central1-docker.pkg.dev/${gc_id}/back/image1:tag5` }] },
-      }),
-    });
+    // let r = await fetch(url, {
+    //   method: "PATCH",
+    //   headers: { Authorization: `Bearer ${token}` },
+    //   body: JSON.stringify({
+    //     // template: { containers: [{ image: "us-docker.pkg.dev/cloudrun/container/hello:latest" }] },
+    //     template: { containers: [{ image: `us-central1-docker.pkg.dev/${gc_id}/back/image1:tag5` }] },
+    //   }),
+    // });
     // let text = await r.text();
     // console.log("text", text);
     // const runClient = new cloud_run.v2.ServicesClient();

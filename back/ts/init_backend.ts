@@ -170,8 +170,8 @@ export default function init_backend(backend: BackendDefault, mode) {
   });
   // launch server
   if (mode === "prod") {
-    server.listen(80);
-    console.log("server.listen(80)");
+    server.listen(process.env.PORT);
+    console.log("server.listen(8080)");
     //
     // for (let module_name in backend.modules) {
     //   let module = backend.modules[module_name];

@@ -106,6 +106,7 @@ function get_icon() {
       font-size: 14px;
       line-height: 20px;
       word-break: break-word;
+      white-space: pre-line;
     }
   }
 

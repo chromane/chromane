@@ -24,37 +24,39 @@ let _server_process = null;
 //     resolve();
 //   });
 // }
-async function compiler_callback(err, stats) {
+async function compiler_callback(mode, err, stats) {
   console.log("err", err);
   //
-  if (_server_process !== null) {
-    kill(_server_process.pid);
-    // _server_process.stdin.pause();
-    // _server_process.kill("SIGINT");
-    // console.log("killed", _server_process.killed);
-    // console.log("killed", _server_process.killed);
-    // console.log("killed", _server_process.killed);
-    // while (_server_process.killed !== true) {
-    //   console.log("killed", _server_process.killed);
-    //   console.log("killed", _server_process.killed);
-    //   console.log("killed", _server_process.killed);
-    //   console.log("killed", _server_process.killed);
-    //   console.log("killed", _server_process.killed);
-    //   console.log("killed", _server_process.killed);
-    //   await common.wait(100);
-    // }
-    // // await kill_process(_server_process);
-    // process.on("close", async () => {
-    //   console.log("222New version of back created. Process with old server killed.");
-    // });
-    // _server_process.kill("SIGINT");
-    console.log("New version of back created. Process with old server killed.");
+  if (mode === "dev") {
+    if (_server_process !== null) {
+      kill(_server_process.pid);
+      // _server_process.stdin.pause();
+      // _server_process.kill("SIGINT");
+      // console.log("killed", _server_process.killed);
+      // console.log("killed", _server_process.killed);
+      // console.log("killed", _server_process.killed);
+      // while (_server_process.killed !== true) {
+      //   console.log("killed", _server_process.killed);
+      //   console.log("killed", _server_process.killed);
+      //   console.log("killed", _server_process.killed);
+      //   console.log("killed", _server_process.killed);
+      //   console.log("killed", _server_process.killed);
+      //   console.log("killed", _server_process.killed);
+      //   await common.wait(100);
+      // }
+      // // await kill_process(_server_process);
+      // process.on("close", async () => {
+      //   console.log("222New version of back created. Process with old server killed.");
+      // });
+      // _server_process.kill("SIGINT");
+      console.log("New version of back created. Process with old server killed.");
+    }
+    _server_process = spawn(`node`, `index.js`.split(" "), {
+      cwd: path.resolve(dirnames.prj_root, "temp_back"),
+      stdio: "inherit",
+      shell: true,
+    });
   }
-  _server_process = spawn(`node`, `index.js`.split(" "), {
-    cwd: path.resolve(dirnames.prj_root, "temp_back"),
-    stdio: "inherit",
-    shell: true,
-  });
   //
   if (stats && stats.compilation && stats.compilation.errors) {
     console.log("stats.compilation.errors");
@@ -124,11 +126,15 @@ function backend_get_config(mode) {
 }
 async function watch_backend() {
   let config = backend_get_config("dev");
-  webpack(config, compiler_callback);
+  webpack(config, (err, stats) => {
+    compiler_callback("dev", err, stats);
+  });
 }
 async function back_build() {
   let config = backend_get_config("prod");
-  webpack(config, compiler_callback);
+  webpack(config, (err, stats) => {
+    compiler_callback("prod", err, stats);
+  });
 }
 function move_static_back_files() {
   console.log("MOVED PACKAGE");
@@ -136,11 +142,6 @@ function move_static_back_files() {
     //
     path.resolve(dirnames.prj_backend, "package.json"),
     path.resolve(dirnames.root, "temp_back", "package.json")
-  );
-  fs_extra.copySync(
-    //
-    path.resolve(dirnames.prj_backend, "dockerfile"),
-    path.resolve(dirnames.root, "temp_back", "dockerfile")
   );
 }
 import common from "./common.js";

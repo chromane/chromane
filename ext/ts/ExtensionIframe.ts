@@ -18,19 +18,19 @@ export default class ExtensionIframe {
   async init(base_url) {
     //
     await util.wait(10);
-    let storage = (await util.storage_get(["version_frontend"])) as any;
+    let storage = (await this.storage_get(["version_frontend"])) as any;
     if (storage.version_frontend) {
       this.inject_iframe(base_url, storage.version_frontend);
       let version_frontend_new = await this.fetch_version_frontend();
       if (storage.version_frontend !== version_frontend_new) {
         this.remove_iframe();
         this.inject_iframe(base_url, version_frontend_new);
-        util.storage_set({ version_frontend: version_frontend_new });
+        this.storage_set({ version_frontend: version_frontend_new });
       }
     } else {
       let version_frontend_new = await this.fetch_version_frontend();
       this.inject_iframe(base_url, version_frontend_new);
-      util.storage_set({ version_frontend: version_frontend_new });
+      this.storage_set({ version_frontend: version_frontend_new });
     }
     //
     if (this.config.mode === "dev" || this.config.mode === "prod") {
@@ -134,10 +134,10 @@ export default class ExtensionIframe {
   }
   // default
   storage_set(data) {
-    return util.storage_set(data);
+    return chrome.storage.local.set(data);
   }
-  storage_get(data) {
-    return util.storage_get(data);
+  storage_get<Type>(keys) {
+    return chrome.storage.local.get(keys) as Type;
   }
   storage_clear() {
     return chrome.storage.local.clear();

@@ -91,7 +91,16 @@ export default class ContentBasic {
     let _window = window as any;
     // console.log("chromane_activation_info", w.chromane_activation_info);
     _window.chromane_content_extecuted_flag = true;
-    if (_window.chromane_open_popup_on_init) {
+    if (_window.location.href === `chrome-extension://${this.config.ext_id}/pages/onboarding/index.html`) {
+      this.popup.set_status("onboarding_popup");
+      chrome.runtime.onMessage.addListener((message) => {
+        if (message.name === "handle_action_click") {
+          this.popup.toggle();
+        }
+      });
+    } else if (_window.location.href === `chrome-extension://${this.config.ext_id}/pages/blank/index.html`) {
+      this.popup.show();
+    } else if (_window.chromane_open_popup_on_init) {
       this.popup.show();
     } else {
       this.popup.open_from_storage();

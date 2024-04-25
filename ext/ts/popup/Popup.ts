@@ -148,6 +148,13 @@ export default class Popup {
     let left = 42;
     return { top, left, width, height };
   }
+  get_popup_rect_onboarding() {
+    let width = 720;
+    let height = window.innerHeight * 0.8;
+    let top = (window.innerHeight - height) / 2;
+    let left = (this.get_width() - width) / 2;
+    return { top, left, width, height };
+  }
   get_rect_sidebar_right(width_type: "default" | "current" = "default") {
     let width: number;
     let left: number;
@@ -833,7 +840,7 @@ export default class Popup {
     //
   }
   async storage_get() {
-    let storage: any = await util.storage_get(["popup"]);
+    let storage: any = await chrome.storage.local.get(["popup"]);
     console.log("storage", storage);
     console.log("storage.popup", storage.popup);
     // if there is no storage.popup - that means this is our first launch
@@ -863,7 +870,7 @@ export default class Popup {
   storage_set(storage) {
     this.storage = storage;
     console.log("storage_set", storage);
-    util.storage_set(storage);
+    chrome.storage.local.set(storage);
   }
   trigger_sidebar_right_on_release() {
     this.set_transition_status(TransitionStatus.active);
@@ -1000,6 +1007,9 @@ export default class Popup {
       } else {
         draggable_overlay_rect = this.get_rect_sidebar_top();
       }
+    } else if (status === "onboarding_popup") {
+      new_status = PopupStatus.draggable_window;
+      this.storage.popup.rect = this.get_popup_rect_onboarding();
     } else {
       new_status = status as PopupStatus;
     }
@@ -1188,7 +1198,6 @@ export default class Popup {
       this.container.style.opacity = 1;
       this.rect_set_apply(rect);
     } else if (this.status === PopupStatus.draggable_overlay && new_status === PopupStatus.draggable_window) {
-      debugger;
       this.set_overlay_status("not-active");
       // animate
       this.set_transition_status(TransitionStatus.active);

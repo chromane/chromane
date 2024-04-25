@@ -56,8 +56,6 @@ function close_button_click() {
         <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
       </svg>
     </div>
-
-    <div id="dropshadow"></div>
   </div>
 </template>
 
@@ -75,6 +73,7 @@ function close_button_click() {
 
   /* background-color: #1c1c1c; */
   background: var(--gradient-primary);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   /*border-bottom: 1px solid rgba( 0, 0, 0, 0.12 );*/
 
   color: white;

@@ -14,6 +14,7 @@ import PageStats from "./pages/PageStats.vue";
 import PageAccount from "./pages/PageAccount.vue";
 //
 import mdi_home from "@mdi/svg/svg/home.svg?raw";
+import mdi_cog from "@mdi/svg/svg/cog.svg?raw";
 import mdi_log_in from "@mdi/svg/svg/login-variant.svg?raw";
 import mdi_log_out from "@mdi/svg/svg/logout-variant.svg?raw";
 import mdi_account from "@mdi/svg/svg/account-circle.svg?raw";
