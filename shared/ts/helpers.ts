@@ -387,6 +387,40 @@ export function find_objects_with_props(root_obj: any, props_arr: Array<string>)
   }
   return result_arr;
 }
+export function find_objects_with_values(root_obj: any, values_arr: Array<Array<any>>) {
+  let result_arr: Array<any> = [];
+  let object_arr = [root_obj];
+  loop_1: for (let i = 0; i < object_arr.length; i++) {
+    let current_obj = object_arr[i];
+    // console.log("current_obj", current_obj);
+    if (
+      //
+      is_null(current_obj) === false &&
+      (is_simple_object(current_obj) || is_array(current_obj)) === true
+    ) {
+      // Check if the current object has all the required properties
+      // that we are looking for
+      let all_props_found = true;
+      loop_2: for (let [prop, value] of values_arr) {
+        if (current_obj[prop] !== value) {
+          all_props_found = false;
+          break loop_2;
+        }
+      }
+      if (all_props_found) {
+        result_arr.push(current_obj);
+      } else {
+        // If this object is not what we are looking for -
+        // Add all of it's children for futher review
+        for (let key in current_obj) {
+          // console.log("key", key);
+          object_arr.push(current_obj[key]);
+        }
+      }
+    }
+  }
+  return result_arr;
+}
 
 export function arr_last(arr: Array<any>) {
   return arr[arr.length - 1];

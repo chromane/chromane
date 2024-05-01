@@ -867,10 +867,13 @@ export default class Popup {
     console.log("storage_get", storage);
     return storage;
   }
+  storage_enabled: boolean = true;
   storage_set(storage) {
     this.storage = storage;
     console.log("storage_set", storage);
-    chrome.storage.local.set(storage);
+    if (this.storage_enabled) {
+      chrome.storage.local.set(storage);
+    }
   }
   trigger_sidebar_right_on_release() {
     this.set_transition_status(TransitionStatus.active);

@@ -82,6 +82,10 @@ function backend_get_config(mode) {
     module: {
       rules: [
         {
+          resourceQuery: /raw/,
+          type: "asset/source",
+        },
+        {
           test: /\.ts$/,
           loader: "ts-loader",
           options: {

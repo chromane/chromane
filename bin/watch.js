@@ -12,6 +12,7 @@ let destinations = [
   path.resolve("../icebreaker/node_modules/chromane"),
   path.resolve("../busmask/node_modules/chromane"),
   path.resolve("../iann_app/node_modules/chromane"),
+  path.resolve("../bloom/node_modules/chromane"),
 ];
 
 console.log(source);

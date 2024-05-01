@@ -64,7 +64,7 @@ export default class ContentIsolated {
       }
     }
   }
-  async init() {
+  async init(extension_iframe_url) {
     //
     // console.log("storage", storage, hash);
     this.actions_manager = new ActionsManager();
@@ -74,7 +74,7 @@ export default class ContentIsolated {
     //
     this.location_hostname = this.get_location_hostname();
     //
-    await this.popup.init(config.urls.extension_iframe);
+    await this.popup.init(extension_iframe_url);
     this.iframe_wrap = this.popup.iframe_wrap;
     //
     setInterval(() => {

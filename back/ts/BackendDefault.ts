@@ -13,14 +13,6 @@ let _config: any = {};
 let _secrets: any = {};
 // let _admin: admin.app.App;
 
-function get_default_oauth_client() {
-  let client_id = _config.google_client_id;
-  let client_secret = _secrets.google_client_secret;
-  let redirect_url = `${_config.urls.backend_root}/auth.redirect`;
-  const oauth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_url);
-  return oauth2Client;
-}
-
 class Common {
   backend: BackendDefault;
   constructor(backend) {
@@ -92,36 +84,9 @@ class Common {
   }
 }
 
-class Auth {
-  async redirect(query_params) {
-    return {
-      _redirect: true,
-      location: `chrome-extension://${_config.extension_id}/pages/redirect/index.html?code=${query_params.code}&state=${query_params.state}&event_name=${query_params.event_name}`,
-    };
-  }
-  async sign_in_with_google_code(code) {
-    let client = get_default_oauth_client();
-    const { tokens } = await client.getToken(code);
-    console.log("tokens", tokens);
-    return tokens;
-    // let app = initializeApp(this.config.firebase_config);
-    // let auth = getAuth(app);
-    // const credential = GoogleAuthProvider.credential(tokens.id_token);
-    // let result = await signInWithCredential(auth, credential);
-    // //
-    // let user = result.user as any;
-    // let refresh_token = user.stsTokenManager.refreshToken;
-    // let access_token = user.stsTokenManager.accessToken;
-    // console.log("result", result);
-    // return { refresh_token, access_token };
-    //
-  }
-}
-
 class Internal {
   config: any;
   secrets: any;
-  auth_client: any;
   auth: GoogleAuth;
   // admin: admin.app.App;
   constructor(config, secrets) {
@@ -129,7 +94,6 @@ class Internal {
     _secrets = secrets;
     this.secrets = secrets;
     this.config = config;
-    this.auth_client = get_default_oauth_client();
     let auth = new GoogleAuth({ credentials: this.secrets.service_account });
     this.auth = auth;
     // _admin = admin.initializeApp({
@@ -162,11 +126,9 @@ export default class BackendDefault {
   // init
   internal: Internal;
   common: Common;
-  auth: Auth;
   constructor(config, secrets) {
     this.internal = new Internal(config, secrets);
     this.common = new Common(this);
-    this.auth = new Auth();
     // _secrets = secrets;
     // this.jwt_claims = jwt_claims;
     // this.config = config;

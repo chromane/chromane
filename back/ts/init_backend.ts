@@ -30,6 +30,13 @@ export default function init_backend(backend: BackendDefault, mode) {
       res.statusCode = 200;
       res.write("pong");
       res.end();
+    } else if (req.url === "/project.chunk") {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      backend.project.chunk(req).then((result: any) => {
+        response.statusCode = 200;
+        response.write(util.encode_json(result));
+        response.end();
+      });
     } else {
       //
       res.setHeader("Access-Control-Allow-Origin", "*");
@@ -46,8 +53,8 @@ export default function init_backend(backend: BackendDefault, mode) {
         }
       });
       request.on("end", () => {
-        console.log("body");
-        console.log(body);
+        // console.log("body");
+        // console.log(body);
         let request_json: any = decode_json(body);
         console.log("request_json");
         console.log(request_json);

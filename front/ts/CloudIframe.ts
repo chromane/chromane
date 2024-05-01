@@ -5,7 +5,6 @@ import type BackendDefault from "@chromane/back/ts/BackendDefault";
 
 import util from "@chromane/shared/ts/util";
 import proxies from "@chromane/shared/ts/proxies";
-import FirebaseManager from "@chromane/front/ts/FirebaseManager";
 import { get_id } from "@chromane/shared/ts/helpers";
 import { watch } from "vue";
 
@@ -13,10 +12,8 @@ export default class CloudIframe {
   // proxies
   proxy_content: ContentBasic;
   proxy_extension_iframe: ExtensionIframe;
-  proxy_backend: BackendDefault;
   //
   ext_store: any;
-  firebase_manager: FirebaseManager;
   backend_module: ExtensionBack;
   window_name = "";
   iframe_id = "";
@@ -27,9 +24,7 @@ export default class CloudIframe {
     // proxies
     this.proxy_content = proxies.create_window_proxy<ContentBasic>(ext_config.ext_id, window, window.parent.parent);
     this.proxy_extension_iframe = proxies.create_window_proxy<ExtensionIframe>(ext_config.ext_id, window, window.parent);
-    this.proxy_backend = proxies.create_proxy_backend<BackendDefault>(ext_config.urls.backend_root);
     //
-    this.firebase_manager = new FirebaseManager(this, ext_config, ext_store, ext_config);
     // watch number of blocking operations
     watch(
       () => ext_store.ui_number_of_blocking_operations,

@@ -92,6 +92,7 @@ export default class ContentBasic {
     // console.log("chromane_activation_info", w.chromane_activation_info);
     _window.chromane_content_extecuted_flag = true;
     if (_window.location.href === `chrome-extension://${this.config.ext_id}/pages/onboarding/index.html`) {
+      this.popup.storage_enabled = false;
       this.popup.set_status("onboarding_popup");
       chrome.runtime.onMessage.addListener((message) => {
         if (message.name === "handle_action_click") {

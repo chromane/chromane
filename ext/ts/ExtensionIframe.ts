@@ -11,8 +11,12 @@ import type { ExtensionConfig } from "@chromane/shared/types/types";
 export default class ExtensionIframe {
   proxy_firebase_iframe: CloudIframe;
   config: ExtensionConfig;
-  constructor(config: ExtensionConfig) {
+  root_bucket_url: string;
+  dev_url: string;
+  constructor(config: ExtensionConfig, root_bucket_url: string, dev_url: string) {
+    this.root_bucket_url = root_bucket_url;
     this.config = config;
+    this.dev_url = dev_url;
     this.proxy_firebase_iframe = proxies.create_proxy_from_iframe_name<CloudIframe>(config.extension_id, "firebase_iframe");
   }
   async init(base_url) {
@@ -58,7 +62,7 @@ export default class ExtensionIframe {
     //
     if (this.config.mode === "prod") {
       let ext_version = chrome.runtime.getManifest().version;
-      let response = await fetch(this.config.urls_new.root_bucket + "/v/" + ext_version + ".txt" + "?ts=" + Date.now())
+      let response = await fetch(this.root_bucket_url + "/v/" + ext_version + ".txt" + "?ts=" + Date.now())
         .then((r: Response) => {
           return r.text();
         })
@@ -82,7 +86,11 @@ export default class ExtensionIframe {
     }
     iframe.setAttribute("allowtransparency", "true");
     iframe.setAttribute("allow", "camera; microphone; fullscreen; display-capture; clipboard-read; clipboard-write");
-    iframe.src = util.get_url(base_url, version_frontend);
+    if (this.config.mode === "prod") {
+      iframe.src = `${base_url}/f/${version_frontend}/iframe/index.html`;
+    } else {
+      iframe.src = this.dev_url;
+    }
     document.body.appendChild(iframe);
   }
   //
